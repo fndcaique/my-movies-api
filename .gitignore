@@ -1,0 +1,14 @@
+# Dependency directory
+node_modules
+
+# Ignore built ts files
+dist
+
+# Lock files
+pnpm-lock.yaml
+
+# API keys and secrets
+.env
+
+# OS metadata
+.DS_Store
