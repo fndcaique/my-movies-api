@@ -12,3 +12,6 @@ pnpm-lock.yaml
 
 # OS metadata
 .DS_Store
+
+# TS build info
+tsconfig.tsbuildinfo
