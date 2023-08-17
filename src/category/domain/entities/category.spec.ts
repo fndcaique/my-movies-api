@@ -1,4 +1,3 @@
-import {} from 'crypto';
 import UniqueEntityId from '../../../common/domain/value-objects/unique-entity-id.vo';
 import { Category } from './category';
 describe('Category Unit Tests', () => {
@@ -40,5 +39,32 @@ describe('Category Unit Tests', () => {
     expect(category.createdAt).toBeTruthy();
     expect(category.createdAt).toBeInstanceOf(Date);
     expect(category.uniqueEntityId instanceof UniqueEntityId).toBe(true);
+  });
+
+  it('should update the name and description properties', () => {
+    const category = new Category({ name: 'name 1', description: 'desc 1' });
+    category.update('name 2');
+    expect(category.name).toBe('name 2');
+    expect(category.description).toBeUndefined();
+
+    category.update('name 3', 'desc 3');
+    expect(category.name).toBe('name 3');
+    expect(category.description).toBe('desc 3');
+  });
+
+  it('should toggle the isActivate property', () => {
+    let category = new Category({ name: 'name 1' });
+    expect(category.isActive).toBe(true);
+    category.deactivate();
+    expect(category.isActive).toBe(false);
+    category.activate();
+    expect(category.isActive).toBe(true);
+
+    category = new Category({ name: 'name 1', isActive: false });
+    expect(category.isActive).toBe(false);
+    category.activate();
+    expect(category.isActive).toBe(true);
+    category.deactivate();
+    expect(category.isActive).toBe(false);
   });
 });
