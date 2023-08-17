@@ -1,4 +1,4 @@
-import { } from 'crypto';
+import {} from 'crypto';
 import UniqueEntityId from '../../../common/domain/value-objects/unique-entity-id.vo';
 import { Category } from './category';
 describe('Category Unit Tests', () => {
@@ -8,7 +8,7 @@ describe('Category Unit Tests', () => {
       name: 'Some category',
       description: 'some description',
       isActive: true,
-      createdAt: new Date(),
+      createdAt: new Date()
     };
     const uuid = '568c59bc-81ea-47e4-b288-4e95cabe5f6b';
     let category = new Category(allProps, new UniqueEntityId(uuid));
@@ -31,7 +31,7 @@ describe('Category Unit Tests', () => {
     expect(category.id instanceof UniqueEntityId).toBe(true);
 
     const someProps = {
-      name: 'Only name property',
+      name: 'Only name property'
     };
     category = new Category(someProps);
     expect(category.name).toEqual(someProps.name);

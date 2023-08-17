@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
-import { isValidUUID } from '../../../utils/is-valid-uuid';
 import InvalidUuidError from '../../errors/invalid-uuid.error';
+import { isValidUUID } from '../utils/is-valid-uuid';
 import ValueObject from './value-object';
 
 export default class UniqueEntityId extends ValueObject<string> {

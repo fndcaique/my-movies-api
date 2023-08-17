@@ -1,13 +1,13 @@
 import UniqueEntityId from '../../../common/domain/value-objects/unique-entity-id.vo';
 
 export type CategoryProperties = {
-  name: string,
-  description?: string,
-  isActive: boolean,
-  createdAt: Date
-}
+  name: string;
+  description?: string;
+  isActive: boolean;
+  createdAt: Date;
+};
 
-type CreateCategoryProperties = Partial<CategoryProperties> & {name: string};
+type CreateCategoryProperties = Partial<CategoryProperties> & { name: string };
 
 export class Category {
   public readonly id: UniqueEntityId;
@@ -19,15 +19,15 @@ export class Category {
       name: props.name,
       description: props.description,
       isActive: props.isActive ?? true,
-      createdAt: props.createdAt ?? new Date(),
+      createdAt: props.createdAt ?? new Date()
     };
   }
 
-  get name () {
+  get name() {
     return this.props.name;
   }
 
-  get description (): string | undefined {
+  get description(): string | undefined {
     return this.props.description;
   }
 
@@ -35,7 +35,7 @@ export class Category {
     this.props.description = value;
   }
 
-  get isActive () {
+  get isActive() {
     return this.props.isActive;
   }
 
@@ -43,7 +43,7 @@ export class Category {
     this.props.isActive = value;
   }
 
-  get createdAt () {
+  get createdAt() {
     return this.props.createdAt;
   }
 }
