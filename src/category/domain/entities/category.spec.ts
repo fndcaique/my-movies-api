@@ -14,8 +14,8 @@ describe('Category Unit Tests', () => {
     let category = new Category(allProps, new UniqueEntityId(uuid));
     expect(category.props).toEqual(allProps);
     expect(category.props.createdAt).toBeInstanceOf(Date);
-    expect(category.id.value).toBe(uuid);
-    expect(category.id instanceof UniqueEntityId).toBe(true);
+    expect(category.uniqueEntityId.value).toBe(uuid);
+    expect(category.uniqueEntityId instanceof UniqueEntityId).toBe(true);
 
     const othersProps = {
       name: 'Other category',
@@ -28,7 +28,7 @@ describe('Category Unit Tests', () => {
     expect(category.props.isActive).toBe(false);
     expect(category.props.createdAt).toBeTruthy();
     expect(category.props.createdAt).toBeInstanceOf(Date);
-    expect(category.id instanceof UniqueEntityId).toBe(true);
+    expect(category.uniqueEntityId instanceof UniqueEntityId).toBe(true);
 
     const someProps = {
       name: 'Only name property'
@@ -39,6 +39,6 @@ describe('Category Unit Tests', () => {
     expect(category.isActive).toBe(true);
     expect(category.createdAt).toBeTruthy();
     expect(category.createdAt).toBeInstanceOf(Date);
-    expect(category.id instanceof UniqueEntityId).toBe(true);
+    expect(category.uniqueEntityId instanceof UniqueEntityId).toBe(true);
   });
 });
