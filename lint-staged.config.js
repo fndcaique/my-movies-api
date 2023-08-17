@@ -5,7 +5,5 @@ module.exports = {
   '**/*.(ts)': () => 'pnpm tsc --noEmit',
 
   // Lint then format TypeScript and JavaScript files
-  '**/*.(ts|js)': (filenames) => [
-    `pnpm eslint --fix ${filenames.join(' ')}`
-  ]
+  '**/*.(ts|js)': (filenames) => [`pnpm eslint --fix ${filenames.join(' ')}`]
 };
