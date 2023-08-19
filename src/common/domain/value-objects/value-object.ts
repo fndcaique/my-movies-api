@@ -1,4 +1,4 @@
-import { deepFreeze } from '../utils/object';
+import { deepFreeze } from '../utils/functions';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default abstract class ValueObject<Value = any> {
