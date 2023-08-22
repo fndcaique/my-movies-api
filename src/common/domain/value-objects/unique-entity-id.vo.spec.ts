@@ -1,4 +1,4 @@
-import InvalidUuidError from '../../errors/invalid-uuid.error';
+import InvalidUuidError from '../errors/invalid-uuid.error';
 import { isValidUUID } from '../utils/is-valid-uuid';
 import UniqueEntityId from './unique-entity-id.vo';
 

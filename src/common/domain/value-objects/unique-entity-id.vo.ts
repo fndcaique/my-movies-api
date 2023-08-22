@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto';
-import InvalidUuidError from '../../errors/invalid-uuid.error';
+import InvalidUuidError from '../errors/invalid-uuid.error';
 import { isValidUUID } from '../utils/is-valid-uuid';
 import ValueObject from './value-object';
 

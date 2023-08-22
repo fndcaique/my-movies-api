@@ -1,5 +1,5 @@
-import { isDefined } from '../domain/utils/functions';
 import ValidationError from '../errors/validation.error';
+import { isDefined } from '../utils/functions';
 
 export default class ValidatorRules {
   private constructor(

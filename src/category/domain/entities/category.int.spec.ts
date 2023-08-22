@@ -1,4 +1,4 @@
-import ValidationError from '../../../common/errors/validation.error';
+import ValidationError from '../../../common/domain/errors/validation.error';
 import { Category } from './category';
 
 describe('Category Integration Tests', () => {

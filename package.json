@@ -16,6 +16,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "class-validator": "^0.14.0",
     "dotenv": "^16.3.1",
     "pg": "^8.11.3"
   },

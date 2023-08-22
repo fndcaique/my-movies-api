@@ -1,6 +1,6 @@
 import Entity from '../../../common/domain/entity/entity';
 import UniqueEntityId from '../../../common/domain/value-objects/unique-entity-id.vo';
-import ValidatorRules from '../../../common/validators/validator-rules';
+import CategoryValidatorFactory from '../validators/category.validator';
 
 export type CategoryProperties = {
   name: string;
@@ -9,7 +9,9 @@ export type CategoryProperties = {
   createdAt: Date;
 };
 
-type CreateCategoryProperties = Partial<CategoryProperties> & { name: string };
+export type CreateCategoryProperties = Partial<CategoryProperties> & {
+  name: string;
+};
 
 export class Category extends Entity<CategoryProperties> {
   constructor(props: CreateCategoryProperties, id?: UniqueEntityId) {
@@ -49,16 +51,21 @@ export class Category extends Entity<CategoryProperties> {
     this.props.description = description;
   }
 
+  // static validate(props: CreateCategoryProperties) {
+  //   ValidatorRules.values(props.name, 'name')
+  //     .required()
+  //     .string()
+  //     .minLength(2)
+  //     .maxLength(128);
+  //   ValidatorRules.values(props.description, 'description')
+  //     .string()
+  //     .maxLength(256);
+  //   ValidatorRules.values(props.isActive, 'isActive').boolean();
+  // }
+
   static validate(props: CreateCategoryProperties) {
-    ValidatorRules.values(props.name, 'name')
-      .required()
-      .string()
-      .minLength(2)
-      .maxLength(128);
-    ValidatorRules.values(props.description, 'description')
-      .string()
-      .maxLength(256);
-    ValidatorRules.values(props.isActive, 'isActive').boolean();
+    const validator = CategoryValidatorFactory.create();
+    validator.validate(props);
   }
 
   activate() {
