@@ -1,4 +1,4 @@
-import ValidationError from '../errors/validation.error';
+import { ValidationError } from '../errors/validation.error';
 import { isDefined } from '../utils/functions';
 
 export default class ValidatorRules {

@@ -1,4 +1,5 @@
 import Entity from '../../../common/domain/entity/entity';
+import { EntityValidationError } from '../../../common/domain/errors/validation.error';
 import UniqueEntityId from '../../../common/domain/value-objects/unique-entity-id.vo';
 import CategoryValidatorFactory from '../validators/category.validator';
 
@@ -65,7 +66,9 @@ export class Category extends Entity<CategoryProperties> {
 
   static validate(props: CreateCategoryProperties) {
     const validator = CategoryValidatorFactory.create();
-    validator.validate(props);
+    if (!validator.validate(props)) {
+      throw new EntityValidationError(validator.errors);
+    }
   }
 
   activate() {

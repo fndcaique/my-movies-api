@@ -1,34 +1,49 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { EntityValidationError } from '../errors/validation.error';
 import ClassValidatorFields from '../validators/class-validator-fields';
 import { FieldErrors } from '../validators/validator-fields.interface';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type TestData = { validator: ClassValidatorFields<any>; data: any };
+type TestData =
+  | { validator: ClassValidatorFields<any>; data: any }
+  | (() => unknown);
 
 expect.extend({
   containsErrorMessages(
     testData: TestData,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    received: FieldErrors<any>
+    expected: FieldErrors<any>
   ): { pass: boolean; message: () => string } {
-    const { validator, data } = testData;
-    const isValid = validator.validate(data);
+    if (typeof testData === 'function') {
+      try {
+        testData();
+        return { pass: false, message: () => 'Expected data to be invalid' };
+      } catch (error) {
+        const e = error as EntityValidationError;
 
-    if (isValid) {
-      return { pass: false, message: () => 'Expected data to be invalid' };
+        return assertContains(expected, e.errors ?? {});
+      }
+    } else {
+      const { validator, data } = testData;
+      const isValid = validator.validate(data);
+
+      if (isValid) {
+        return { pass: false, message: () => 'Expected data to be invalid' };
+      }
+
+      return assertContains(expected, validator.errors ?? {});
     }
-
-    const pass = expect
-      .objectContaining(received)
-      .asymmetricMatch(validator.errors);
-
-    return {
-      pass,
-      message: () =>
-        `Expected errors to ${pass ? 'not ' : ''}equal: ${JSON.stringify(
-          received,
-          null,
-          2
-        )}\n\nReceived: ${JSON.stringify(validator.errors, null, 2)}`
-    };
   }
 });
+
+function assertContains(expected: FieldErrors, received: FieldErrors) {
+  const pass = expect.objectContaining(received).asymmetricMatch(expected);
+
+  return {
+    pass,
+    message: () =>
+      `Expected errors to ${pass ? 'not ' : ''}equal: ${JSON.stringify(
+        expected,
+        null,
+        2
+      )}\n\nReceived: ${JSON.stringify(received, null, 2)}`
+  };
+}

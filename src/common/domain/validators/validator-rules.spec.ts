@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import ValidationError from '../errors/validation.error';
+import { ValidationError } from '../errors/validation.error';
 import ValidatorRules from './validator-rules';
 
 type AssertParams = {
