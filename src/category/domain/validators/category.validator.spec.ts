@@ -1,4 +1,3 @@
-import { CreateCategoryProperties } from '../entities/category';
 import CategoryValidatorFactory, {
   CategoryRules,
   CategoryValidator
@@ -12,37 +11,36 @@ describe('CategoryValidator Tests', () => {
   });
 
   it('should test invalid cases for name field', () => {
-    let isValid = validator.validate(
-      null as unknown as CreateCategoryProperties
-    );
-    expect(isValid).toBe(false);
-    expect(validator.errors?.name).toEqual([
-      'name should not be empty',
-      'name must be a string',
-      'name must be longer than or equal to 2 characters',
-      'name must be shorter than or equal to 128 characters'
-    ]);
+    expect({ validator, data: null }).containsErrorMessages({
+      name: [
+        'name should not be empty',
+        'name must be a string',
+        'name must be longer than or equal to 2 characters',
+        'name must be shorter than or equal to 128 characters'
+      ]
+    });
 
-    isValid = validator.validate({ name: '' });
-    expect(isValid).toBe(false);
-    expect(validator.errors?.name).toEqual([
-      'name should not be empty',
-      'name must be longer than or equal to 2 characters'
-    ]);
+    expect({ validator, data: { name: '' } }).containsErrorMessages({
+      name: [
+        'name should not be empty',
+        'name must be longer than or equal to 2 characters'
+      ]
+    });
 
-    isValid = validator.validate({ name: 5 as unknown as string });
-    expect(isValid).toBe(false);
-    expect(validator.errors?.name).toEqual([
-      'name must be a string',
-      'name must be longer than or equal to 2 characters',
-      'name must be shorter than or equal to 128 characters'
-    ]);
+    expect({ validator, data: { name: 5 } }).containsErrorMessages({
+      name: [
+        'name must be a string',
+        'name must be longer than or equal to 2 characters',
+        'name must be shorter than or equal to 128 characters'
+      ]
+    });
 
-    isValid = validator.validate({ name: 'n'.repeat(129) });
-    expect(isValid).toBe(false);
-    expect(validator.errors?.name).toEqual([
-      'name must be shorter than or equal to 128 characters'
-    ]);
+    expect({
+      validator,
+      data: { name: 'n'.repeat(129) }
+    }).containsErrorMessages({
+      name: ['name must be shorter than or equal to 128 characters']
+    });
   });
 
   it('should test valid cases for fields', () => {

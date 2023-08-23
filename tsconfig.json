@@ -97,7 +97,8 @@
   },
   "include": [
     "src/",
-    "src/category/domain/entities/category.ts"
+    "src/category/domain/entities/category.ts",
+    "src/common/@types/jest.d.ts"
   ],
   "exclude": [
     "node_modules"
