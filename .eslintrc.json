@@ -19,28 +19,13 @@
     "prettier"
   ],
   "rules": {
-    "prettier/prettier": 2 // Means error
-    // "indent": [
-    //   "error",
-    //   2
-    // ],
-    // "linebreak-style": [
-    //   "error",
-    //   "unix"
-    // ],
-    // "quotes": [
-    //   "error",
-    //   "single"
-    // ],
-    // "semi": [
-    //   "error",
-    //   "always"
-    // ]
+    "prettier/prettier": 2, // Means error
+    "@typescript-eslint/no-explicit-any": "off"
   },
   "overrides": [
     {
       "files": [
-        "src /**/*spec.ts"
+        "src/**/*spec.ts"
       ],
       "env": {
         "jest": true,

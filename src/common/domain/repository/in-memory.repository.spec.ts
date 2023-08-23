@@ -1,6 +1,6 @@
 import Entity from '../entity/entity';
 import NotFoundError from '../errors/not-found.error';
-import InMemoryRepository from './in-memory.repository';
+import { InMemoryRepository } from './in-memory.repository';
 
 type StubEntityProps = {
   name: string;
@@ -54,7 +54,7 @@ describe('InMemoryRepository Unit Tests', () => {
     const entity = new StubEntity({ name: 'name', price: 0 });
     await repository.insert(entity);
 
-    const entities = await repository.find({ limit: 10, offset: 0 });
+    const entities = await repository.findAll();
     expect(entities).toEqual([entity]);
   });
 

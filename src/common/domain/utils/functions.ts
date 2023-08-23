@@ -39,6 +39,10 @@ export function isDefined(value: unknown): boolean {
   return value !== undefined && value !== null;
 }
 
+export function isEmpty(value: unknown): boolean {
+  return !isDefined(value) || !(value as { length?: number })?.length;
+}
+
 export function padNumber(value: number) {
   if (isNumber(value)) {
     return `0${value}`.slice(-2);

@@ -1,10 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Entity from '../entity/entity';
 import NotFoundError from '../errors/not-found.error';
 import UniqueEntityId from '../value-objects/unique-entity-id.vo';
-import { QueryPaginationInterface } from './query-pagination.interface';
-import { RepositoryInterface } from './repository.interface';
+import {
+  RepositoryInterface,
+  SearchableRepositoryInterface
+} from './repository.contracts';
 
-export default abstract class InMemoryRepository<E extends Entity>
+export abstract class InMemoryRepository<E extends Entity>
   implements RepositoryInterface<E>
 {
   items: E[] = [];
@@ -16,8 +19,8 @@ export default abstract class InMemoryRepository<E extends Entity>
     const _id = `${id}`;
     return this._get(_id);
   }
-  async find(query: QueryPaginationInterface): Promise<E[]> {
-    return this.items.slice(query.offset).slice(0, query.limit);
+  async findAll(): Promise<E[]> {
+    return this.items;
   }
   async update(entity: E): Promise<void> {
     await this._get(entity.id);
@@ -41,5 +44,14 @@ export default abstract class InMemoryRepository<E extends Entity>
       throw new NotFoundError(`Entity Not Found using ID ${id}`);
     }
     return item;
+  }
+}
+
+export abstract class InMemorySearchableRepository<E extends Entity>
+  extends InMemoryRepository<E>
+  implements SearchableRepositoryInterface<E, any, any>
+{
+  search(query: any): Promise<any> {
+    throw new Error(query);
   }
 }
