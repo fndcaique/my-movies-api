@@ -13,24 +13,24 @@ export interface RepositoryInterface<E extends Entity> {
 export type SortDirection = 'asc' | 'desc';
 
 export type SearchProps<Filter = string> = {
-  page?: number;
-  limit?: number;
-  sort?: string | null;
-  sortDir?: SortDirection | null;
-  filter?: Filter | null;
+  page: number;
+  limit: number;
+  sortBy: string | null;
+  sortDir: SortDirection | null;
+  filter: Filter | null;
 };
 
 export class SearchParams {
   protected _page!: number;
   protected _limit!: number;
-  protected _sort!: string | null;
+  protected _sortBy!: string | null;
   protected _sortDir!: SortDirection | null;
   protected _filter!: string | null;
 
-  constructor(props: SearchProps = {}) {
+  constructor(props: Partial<SearchProps> = {}) {
     this.page = props.page;
     this.limit = props.limit;
-    this.sort = props.sort;
+    this.sortBy = props.sortBy;
     this.sortDir = props.sortDir;
     this.filter = props.filter;
   }
@@ -62,11 +62,11 @@ export class SearchParams {
     this._limit = limit;
   }
 
-  get sort(): string | null {
-    return this._sort;
+  get sortBy(): string | null {
+    return this._sortBy;
   }
-  private set sort(value: string | null | undefined) {
-    this._sort =
+  private set sortBy(value: string | null | undefined) {
+    this._sortBy =
       isEmpty(value) || typeof value === 'object' ? null : toString(value);
   }
 
@@ -74,7 +74,7 @@ export class SearchParams {
     return this._sortDir;
   }
   private set sortDir(value: SortDirection | null | undefined) {
-    if (!this.sort) {
+    if (!this.sortBy) {
       this._sortDir = null;
       return;
     }
@@ -90,25 +90,20 @@ export class SearchParams {
       isEmpty(value) || typeof value === 'object' ? null : toString(value);
   }
 
-  toJSON() {
+  toJSON(): SearchProps {
     return {
       page: this.page,
       limit: this.limit,
-      sort: this.sort,
+      sortBy: this.sortBy,
       sortDir: this.sortDir,
       filter: this.filter
     };
   }
 }
 
-type SearchResultProps<E, Filter> = {
+type SearchResultProps<E, Filter = string> = SearchProps<Filter> & {
   items: E[];
   total: number;
-  page: number;
-  limit: number;
-  sort: string | null;
-  sortDir: string | null;
-  filter: Filter | null;
 };
 export class SearchResult<E extends Entity, Filter = string> {
   readonly items: E[];
@@ -116,8 +111,8 @@ export class SearchResult<E extends Entity, Filter = string> {
   readonly page: number;
   readonly limit: number;
   readonly lastPage: number;
-  readonly sort: string | null;
-  readonly sortDir: string | null;
+  readonly sortBy: string | null;
+  readonly sortDir: SortDirection | null;
   readonly filter: Filter | null;
 
   constructor(props: SearchResultProps<E, Filter>) {
@@ -126,19 +121,19 @@ export class SearchResult<E extends Entity, Filter = string> {
     this.page = props.page;
     this.limit = props.limit;
     this.lastPage = Math.ceil(this.total / this.limit);
-    this.sort = props.sort;
+    this.sortBy = props.sortBy;
     this.sortDir = props.sortDir;
     this.filter = props.filter;
   }
 
-  toJSON() {
+  toJSON(): SearchResultProps<E, Filter> & { lastPage: number } {
     return {
       items: this.items,
       total: this.total,
       page: this.page,
       limit: this.limit,
       lastPage: this.lastPage,
-      sort: this.sort,
+      sortBy: this.sortBy,
       sortDir: this.sortDir,
       filter: this.filter
     };

@@ -63,7 +63,59 @@ describe('InMemorySearchableRepository Unit Tests', () => {
       expect(spyFilterMethod).toHaveBeenCalledTimes(3);
     });
   });
-  describe('applySort method', () => {});
+  describe('applySort method', () => {
+    it('should not sort items when sort param is null', async () => {
+      const items = [
+        new StubEntity({ name: 'b', price: 5 }),
+        new StubEntity({ name: 'c', price: 3 }),
+        new StubEntity({ name: 'a', price: 0 })
+      ];
+      const spyFilterMethod = jest.spyOn(items, 'sort');
+      let itemsSorted = await repository['applySort'](items, null, null);
+      expect(itemsSorted).toEqual(items);
+      expect(spyFilterMethod).not.toHaveBeenCalled();
+
+      itemsSorted = await repository['applySort'](items, undefined, null);
+      expect(itemsSorted).toEqual(items);
+      expect(spyFilterMethod).not.toHaveBeenCalled();
+
+      itemsSorted = await repository['applySort'](items, null, undefined);
+      expect(itemsSorted).toEqual(items);
+      expect(spyFilterMethod).not.toHaveBeenCalled();
+
+      itemsSorted = await repository['applySort'](items, null, 'asc');
+      expect(itemsSorted).toEqual(items);
+      expect(spyFilterMethod).not.toHaveBeenCalled();
+
+      itemsSorted = await repository['applySort'](items, null, 'desc');
+      expect(itemsSorted).toEqual(items);
+      expect(spyFilterMethod).not.toHaveBeenCalled();
+    });
+
+    it('should sort items without update the items array', async () => {
+      const items = [
+        new StubEntity({ name: 'b', price: 5 }),
+        new StubEntity({ name: 'c', price: 3 }),
+        new StubEntity({ name: 'a', price: 0 })
+      ];
+      const spyFilterMethod = jest.spyOn(items, 'sort');
+      let itemsSorted = await repository['applySort'](items, 'name', null);
+      expect(itemsSorted).toEqual([items[2], items[0], items[1]]);
+      expect(spyFilterMethod).not.toHaveBeenCalled();
+
+      itemsSorted = await repository['applySort'](items, 'name', 'desc');
+      expect(itemsSorted).toEqual([items[1], items[0], items[2]]);
+      expect(spyFilterMethod).not.toHaveBeenCalled();
+
+      itemsSorted = await repository['applySort'](items, 'price', 'desc');
+      expect(itemsSorted).toEqual([...items]);
+      expect(spyFilterMethod).not.toHaveBeenCalled();
+
+      itemsSorted = await repository['applySort'](items, 'price', 'asc');
+      expect(itemsSorted).toEqual([...items].reverse());
+      expect(spyFilterMethod).not.toHaveBeenCalled();
+    });
+  });
   describe('applyPaginate method', () => {});
   describe('search method', () => {});
 });

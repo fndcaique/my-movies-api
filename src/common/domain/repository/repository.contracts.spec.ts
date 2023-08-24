@@ -55,56 +55,56 @@ describe('Search Unit Tests', () => {
 
     test('sort prop', () => {
       const arrange = [
-        { sort: null, expected: null },
-        { sort: undefined, expected: null },
-        { sort: '', expected: null },
-        { sort: 'fake', expected: 'fake' },
-        { sort: -1, expected: '-1' },
-        { sort: 10.1, expected: '10.1' },
-        { sort: true, expected: 'true' },
-        { sort: false, expected: 'false' },
-        { sort: {}, expected: null },
-        { sort: [], expected: null },
-        { sort: 1, expected: '1' },
-        { sort: 2, expected: '2' },
-        { sort: 300, expected: '300' }
+        { sortBy: null, expected: null },
+        { sortBy: undefined, expected: null },
+        { sortBy: '', expected: null },
+        { sortBy: 'fake', expected: 'fake' },
+        { sortBy: -1, expected: '-1' },
+        { sortBy: 10.1, expected: '10.1' },
+        { sortBy: true, expected: 'true' },
+        { sortBy: false, expected: 'false' },
+        { sortBy: {}, expected: null },
+        { sortBy: [], expected: null },
+        { sortBy: 1, expected: '1' },
+        { sortBy: 2, expected: '2' },
+        { sortBy: 300, expected: '300' }
       ];
 
       arrange.forEach((item) => {
         expect(
-          new SearchParams({ sort: item.sort as unknown as string }).sort
+          new SearchParams({ sortBy: item.sortBy as unknown as string }).sortBy
         ).toBe(item.expected);
       });
     });
 
     test('sortDir prop', () => {
       const arrange = [
-        { sort: undefined, sortDir: 'desc', expected: null },
-        { sort: null, sortDir: 'desc', expected: null },
-        { sort: '', sortDir: 'desc', expected: null },
-        { sort: 'field', sortDir: null, expected: 'asc' },
-        { sort: 'field', sortDir: undefined, expected: 'asc' },
-        { sort: 'field', sortDir: '', expected: 'asc' },
-        { sort: 'field', sortDir: 'fake', expected: 'asc' },
-        { sort: 'field', sortDir: -1, expected: 'asc' },
-        { sort: 'field', sortDir: 10.1, expected: 'asc' },
-        { sort: 'field', sortDir: true, expected: 'asc' },
-        { sort: 'field', sortDir: false, expected: 'asc' },
-        { sort: 'field', sortDir: {}, expected: 'asc' },
-        { sort: 'field', sortDir: [], expected: 'asc' },
-        { sort: 'field', sortDir: 1, expected: 'asc' },
-        { sort: 'field', sortDir: 2, expected: 'asc' },
-        { sort: 'field', sortDir: 300, expected: 'asc' },
-        { sort: 'field', sortDir: 'ascend', expected: 'asc' },
-        { sort: 'field', sortDir: 'descend', expected: 'asc' },
-        { sort: 'field', sortDir: 'asc', expected: 'asc' },
-        { sort: 'field', sortDir: 'desc', expected: 'desc' }
+        { sortBy: undefined, sortDir: 'desc', expected: null },
+        { sortBy: null, sortDir: 'desc', expected: null },
+        { sortBy: '', sortDir: 'desc', expected: null },
+        { sortBy: 'field', sortDir: null, expected: 'asc' },
+        { sortBy: 'field', sortDir: undefined, expected: 'asc' },
+        { sortBy: 'field', sortDir: '', expected: 'asc' },
+        { sortBy: 'field', sortDir: 'fake', expected: 'asc' },
+        { sortBy: 'field', sortDir: -1, expected: 'asc' },
+        { sortBy: 'field', sortDir: 10.1, expected: 'asc' },
+        { sortBy: 'field', sortDir: true, expected: 'asc' },
+        { sortBy: 'field', sortDir: false, expected: 'asc' },
+        { sortBy: 'field', sortDir: {}, expected: 'asc' },
+        { sortBy: 'field', sortDir: [], expected: 'asc' },
+        { sortBy: 'field', sortDir: 1, expected: 'asc' },
+        { sortBy: 'field', sortDir: 2, expected: 'asc' },
+        { sortBy: 'field', sortDir: 300, expected: 'asc' },
+        { sortBy: 'field', sortDir: 'ascend', expected: 'asc' },
+        { sortBy: 'field', sortDir: 'descend', expected: 'asc' },
+        { sortBy: 'field', sortDir: 'asc', expected: 'asc' },
+        { sortBy: 'field', sortDir: 'desc', expected: 'desc' }
       ];
 
       arrange.forEach((item) => {
         expect(
           new SearchParams({
-            sort: item.sort,
+            sortBy: item.sortBy,
             sortDir: item.sortDir as unknown as SortDirection
           }).sortDir
         ).toBe(item.expected);
@@ -143,7 +143,7 @@ describe('Search Unit Tests', () => {
         total: 4,
         page: 1,
         limit: 2,
-        sort: null,
+        sortBy: null,
         sortDir: null,
         filter: null
       });
@@ -154,7 +154,7 @@ describe('Search Unit Tests', () => {
         page: 1,
         limit: 2,
         lastPage: 2,
-        sort: null,
+        sortBy: null,
         sortDir: null,
         filter: null
       });
@@ -164,7 +164,7 @@ describe('Search Unit Tests', () => {
         total: 4,
         page: 1,
         limit: 2,
-        sort: 'name',
+        sortBy: 'name',
         sortDir: 'asc',
         filter: 'test'
       }) as any;
@@ -175,7 +175,7 @@ describe('Search Unit Tests', () => {
         page: 1,
         limit: 2,
         lastPage: 2,
-        sort: 'name',
+        sortBy: 'name',
         sortDir: 'asc',
         filter: 'test'
       });
@@ -187,7 +187,7 @@ describe('Search Unit Tests', () => {
         total: 4,
         page: 1,
         limit: 5,
-        sort: null,
+        sortBy: null,
         sortDir: null,
         filter: null
       });
@@ -198,7 +198,7 @@ describe('Search Unit Tests', () => {
         page: 1,
         limit: 5,
         lastPage: 1,
-        sort: null,
+        sortBy: null,
         sortDir: null,
         filter: null
       });
@@ -210,7 +210,7 @@ describe('Search Unit Tests', () => {
         total: 15,
         page: 1,
         limit: 2,
-        sort: 'name',
+        sortBy: 'name',
         sortDir: 'desc',
         filter: 'test'
       });
@@ -221,7 +221,7 @@ describe('Search Unit Tests', () => {
         page: 1,
         limit: 2,
         lastPage: 8,
-        sort: 'name',
+        sortBy: 'name',
         sortDir: 'desc',
         filter: 'test'
       });
