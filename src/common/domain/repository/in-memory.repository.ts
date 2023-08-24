@@ -4,6 +4,8 @@ import NotFoundError from '../errors/not-found.error';
 import UniqueEntityId from '../value-objects/unique-entity-id.vo';
 import {
   RepositoryInterface,
+  SearchParams,
+  SearchResult,
   SearchableRepositoryInterface
 } from './repository.contracts';
 
@@ -49,9 +51,59 @@ export abstract class InMemoryRepository<E extends Entity>
 
 export abstract class InMemorySearchableRepository<E extends Entity>
   extends InMemoryRepository<E>
-  implements SearchableRepositoryInterface<E, any, any>
+  implements SearchableRepositoryInterface<E>
 {
-  search(query: any): Promise<any> {
-    throw new Error(query);
+  async search(props: SearchParams): Promise<SearchResult<E, string>> {
+    const itemsFiltered = await this.applyFilter(this.items, props.filter);
+    const itemsSorted = await this.applySort(
+      itemsFiltered,
+      props.sort,
+      props.sortDir
+    );
+    const itemsPaginated = await this.applyPaginate(
+      itemsSorted,
+      props.page,
+      props.limit
+    );
+
+    return new SearchResult({
+      ...props.toJSON(),
+      items: itemsPaginated,
+      total: itemsFiltered.length
+    });
+  }
+
+  protected abstract applyFilter(
+    items: E[],
+    filter: SearchParams['filter']
+  ): Promise<E[]>;
+
+  protected async applySort(
+    items: E[],
+    sort: SearchParams['sort'],
+    sortDir: SearchParams['sortDir']
+  ): Promise<E[]> {
+    if (!sort) {
+      return items;
+    }
+    return [...items].sort((a, b) => {
+      if (a.props[sort] < b.props[sort]) {
+        return sortDir === 'desc' ? 1 : -1;
+      }
+      if (a.props[sort] > b.props[sort]) {
+        return sortDir === 'desc' ? -1 : 1;
+      }
+      return 0;
+    });
+  }
+
+  protected async applyPaginate(
+    items: E[],
+    page: SearchParams['page'],
+    limit: SearchParams['limit']
+  ): Promise<E[]> {
+    const start = (page - 1) * limit;
+    const end = start + limit;
+    return items.slice(start, end);
   }
 }

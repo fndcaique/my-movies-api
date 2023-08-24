@@ -40,7 +40,11 @@ export function isDefined(value: unknown): boolean {
 }
 
 export function isEmpty(value: unknown): boolean {
-  return !isDefined(value) || !(value as { length?: number })?.length;
+  return (
+    !isDefined(value) ||
+    (typeof (value as { length?: number }).length !== 'undefined' &&
+      (value as { length?: number }).length === 0)
+  );
 }
 
 export function padNumber(value: number) {
