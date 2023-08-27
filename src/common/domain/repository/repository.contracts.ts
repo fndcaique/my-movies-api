@@ -20,14 +20,14 @@ export type SearchProps<Filter = string> = {
   filter: Filter | null;
 };
 
-export class SearchParams {
+export class SearchParams<Filter = string> {
   protected _page!: number;
   protected _limit!: number;
   protected _sortBy!: string | null;
   protected _sortDir!: SortDirection | null;
-  protected _filter!: string | null;
+  protected _filter!: Filter | null;
 
-  constructor(props: Partial<SearchProps> = {}) {
+  constructor(props: Partial<SearchProps<Filter>> = {}) {
     this.page = props.page;
     this.limit = props.limit;
     this.sortBy = props.sortBy;
@@ -82,15 +82,17 @@ export class SearchParams {
     this._sortDir = dir !== 'asc' && dir !== 'desc' ? 'asc' : dir;
   }
 
-  get filter(): string | null {
+  get filter(): Filter | null {
     return this._filter;
   }
-  private set filter(value: string | null | undefined) {
+  private set filter(value: Filter | null | undefined) {
     this._filter =
-      isEmpty(value) || typeof value === 'object' ? null : toString(value);
+      isEmpty(value) || typeof value === 'object'
+        ? null
+        : (toString(value) as Filter);
   }
 
-  toJSON(): SearchProps {
+  toJSON(): SearchProps<Filter> {
     return {
       page: this.page,
       limit: this.limit,
@@ -143,7 +145,7 @@ export class SearchResult<E extends Entity, Filter = string> {
 export interface SearchableRepositoryInterface<
   E extends Entity,
   Filter = string,
-  SearchInput = SearchParams,
+  SearchInput = SearchParams<Filter>,
   SearchOuput = SearchResult<E, Filter>
 > extends RepositoryInterface<E> {
   search(query: SearchInput): Promise<SearchOuput>;

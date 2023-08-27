@@ -18,7 +18,6 @@ class StubInMemorySearchableRepository extends InMemorySearchableRepository<Stub
     if (!filter) {
       return items;
     }
-
     return items.filter(
       (item) =>
         removeAccents(item.props.name.toLowerCase()).includes(
