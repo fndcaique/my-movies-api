@@ -16,7 +16,9 @@
     "lint": "eslint -c .eslintrc.json . --ext .ts --ext .js --fix",
     "lint-staged": "lint-staged",
     "build": "tsc",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "cti": "cti",
+    "cti:@core": "sh ./cti.sh"
   },
   "dependencies": {
     "class-validator": "^0.14.0",
@@ -31,6 +33,7 @@
     "@types/uuid": "^9.0.2",
     "@typescript-eslint/eslint-plugin": "^6.4.0",
     "@typescript-eslint/parser": "^6.4.0",
+    "create-ts-index": "^1.14.0",
     "eslint": "^8.47.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",

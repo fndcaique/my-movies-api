@@ -10,16 +10,18 @@ import CategoryRepository, {
 } from '../../domain/repository/category.repository';
 import { CategoryOuputMappper, CategoryOutput } from '../dto/category-output';
 
-export default class ListCategoriesUseCase implements UseCase<Input, Output> {
+export default class ListCategoriesUseCase
+  implements UseCase<ListCategoriesInput, ListCategoriesOutput>
+{
   constructor(private categoryRepository: CategoryRepository) {}
 
-  async execute(input: Input): Promise<Output> {
+  async execute(input: ListCategoriesInput): Promise<ListCategoriesOutput> {
     const params = new CategorySearchParams(input);
     const searchResult = await this.categoryRepository.search(params);
     return this.toOuput(searchResult);
   }
 
-  private toOuput(searchResult: CategorySearchResult): Output {
+  private toOuput(searchResult: CategorySearchResult): ListCategoriesOutput {
     return {
       ...PaginationOuputMapper.toOutput(searchResult),
       items: searchResult.items.map(CategoryOuputMappper.toOutput)
@@ -27,6 +29,6 @@ export default class ListCategoriesUseCase implements UseCase<Input, Output> {
   }
 }
 
-export type Input = SearchInput<string>;
+export type ListCategoriesInput = SearchInput<string>;
 
-export type Output = PaginationOutput<CategoryOutput>;
+export type ListCategoriesOutput = PaginationOutput<CategoryOutput>;

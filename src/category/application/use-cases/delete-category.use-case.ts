@@ -1,16 +1,18 @@
 import UseCase from '@common/application/use-case';
 import CategoryRepository from '../../domain/repository/category.repository';
 
-export default class DeleteCategoryUseCase implements UseCase<Input, Output> {
+export default class DeleteCategoryUseCase
+  implements UseCase<DeleteCategoryInput, DeleteCategoryOutput>
+{
   constructor(private categoryRepository: CategoryRepository) {}
 
-  async execute(input: Input): Promise<Output> {
+  async execute(input: DeleteCategoryInput): Promise<DeleteCategoryOutput> {
     await this.categoryRepository.delete(input.id);
   }
 }
 
-export type Input = {
+export type DeleteCategoryInput = {
   id: string;
 };
 
-export type Output = void;
+export type DeleteCategoryOutput = void;

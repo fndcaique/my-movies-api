@@ -2,10 +2,12 @@ import UseCase from '@common/application/use-case';
 import CategoryRepository from '../../domain/repository/category.repository';
 import { CategoryOuputMappper, CategoryOutput } from '../dto/category-output';
 
-export default class UpdateCategoryUseCase implements UseCase<Input, Output> {
+export default class UpdateCategoryUseCase
+  implements UseCase<UpdateCategoryInput, UpdateCategoryOutput>
+{
   constructor(private categoryRepository: CategoryRepository) {}
 
-  async execute(input: Input): Promise<Output> {
+  async execute(input: UpdateCategoryInput): Promise<UpdateCategoryOutput> {
     const entity = await this.categoryRepository.findById(input.id);
     entity.update(input.name, input.description);
     if (input.isActive === true) {
@@ -18,11 +20,11 @@ export default class UpdateCategoryUseCase implements UseCase<Input, Output> {
   }
 }
 
-export type Input = {
+export type UpdateCategoryInput = {
   id: string;
   name: string;
   description?: string;
   isActive?: boolean;
 };
 
-export type Output = CategoryOutput;
+export type UpdateCategoryOutput = CategoryOutput;
