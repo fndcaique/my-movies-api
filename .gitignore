@@ -15,3 +15,7 @@ pnpm-lock.yaml
 
 # TS build info
 tsconfig.tsbuildinfo
+
+
+# Test coverage
+__coverage

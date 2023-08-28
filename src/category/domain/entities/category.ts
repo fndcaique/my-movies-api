@@ -73,10 +73,10 @@ export class Category extends Entity<CategoryProperties> {
   }
 
   activate() {
-    this.props.isActive = true;
+    this.isActive = true;
   }
 
   deactivate() {
-    this.props.isActive = false;
+    this.isActive = false;
   }
 }

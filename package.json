@@ -9,7 +9,9 @@
   "keywords": [],
   "scripts": {
     "dev": "ts-node-dev --inspect --ignore-watch node_modules --no-notify src/index.ts",
-    "test": "jest --verbose -i",
+    "test": "jest",
+    "test:verbose": "jest --verbose -i",
+    "test:cov": "jest --coverage",
     "lint": "eslint -c .eslintrc.json . --ext .ts --ext .js --fix",
     "lint-staged": "lint-staged",
     "build": "tsc",
