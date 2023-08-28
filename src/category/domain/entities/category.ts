@@ -1,6 +1,6 @@
-import Entity from '../../../common/domain/entity/entity';
-import { EntityValidationError } from '../../../common/domain/errors/validation.error';
-import UniqueEntityId from '../../../common/domain/value-objects/unique-entity-id.vo';
+import Entity from '@common/domain/entity/entity';
+import { EntityValidationError } from '@common/domain/errors/validation.error';
+import UniqueEntityId from '@common/domain/value-objects/unique-entity-id.vo';
 import CategoryValidatorFactory from '../validators/category.validator';
 
 export type CategoryProperties = {

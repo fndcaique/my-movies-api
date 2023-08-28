@@ -1,3 +1,4 @@
+import ClassValidatorFields from '@common/domain/validators/class-validator-fields';
 import {
   IsBoolean,
   IsDate,
@@ -7,7 +8,6 @@ import {
   MaxLength,
   MinLength
 } from 'class-validator';
-import ClassValidatorFields from '../../../common/domain/validators/class-validator-fields';
 import { CreateCategoryProperties } from '../entities/category';
 
 export class CategoryRules {

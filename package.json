@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "ts-node-dev --inspect --ignore-watch node_modules --no-notify src/index.ts",
     "test": "jest",
+    "test:watch": "jest --watch",
     "test:verbose": "jest --verbose -i",
     "test:cov": "jest --coverage",
     "lint": "eslint -c .eslintrc.json . --ext .ts --ext .js --fix",

@@ -2,7 +2,7 @@ import {
   SearchParams,
   SearchResult,
   SearchableRepositoryInterface
-} from '../../../common/domain/repository/repository.contracts';
+} from '@common/domain/repository/repository.contracts';
 import { Category } from '../entities/category';
 
 export type CategoryFilter = string;
