@@ -5,7 +5,7 @@ import CategoryValidatorFactory from '../validators/category.validator';
 
 export type CategoryProperties = {
   name: string;
-  description?: string | null;
+  description: string | null;
   isActive: boolean;
   createdAt: Date;
 };
@@ -18,6 +18,7 @@ export class Category extends Entity<CategoryProperties> {
   constructor(props: CreateCategoryProperties, id?: UniqueEntityId) {
     Category.validate(props);
     super(props as CategoryProperties, id);
+    this.description = props.description ?? null;
     this.props.isActive = props.isActive ?? true;
     this.props.createdAt = props.createdAt ?? new Date();
   }
@@ -26,11 +27,11 @@ export class Category extends Entity<CategoryProperties> {
     return this.props.name;
   }
 
-  get description(): string | undefined | null {
+  get description(): string | null {
     return this.props.description;
   }
 
-  private set description(value: string) {
+  private set description(value: string | null) {
     this.props.description = value;
   }
 
@@ -49,7 +50,7 @@ export class Category extends Entity<CategoryProperties> {
   update(name: string, description?: string | null) {
     Category.validate({ name, description });
     this.props.name = name;
-    this.props.description = description;
+    this.props.description = description ?? null;
   }
 
   // static validate(props: CreateCategoryProperties) {

@@ -53,7 +53,7 @@ describe('Category Unit Tests', () => {
     category.update('name 2');
     expect(Category.validate).toBeCalledTimes(2);
     expect(category.name).toBe('name 2');
-    expect(category.description).toBeUndefined();
+    expect(category.description).toBeNull();
 
     category.update('name 3', 'desc 3');
     expect(Category.validate).toBeCalledTimes(3);
