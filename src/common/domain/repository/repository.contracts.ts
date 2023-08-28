@@ -107,7 +107,7 @@ type SearchResultProps<E, Filter = string> = SearchProps<Filter> & {
   items: E[];
   total: number;
 };
-export class SearchResult<E extends Entity, Filter = string> {
+export class SearchResult<E extends Entity = Entity, Filter = string> {
   readonly items: E[];
   readonly total: number;
   readonly page: number;
@@ -130,14 +130,14 @@ export class SearchResult<E extends Entity, Filter = string> {
 
   toJSON(): SearchResultProps<E, Filter> & { lastPage: number } {
     return {
-      items: this.items,
       total: this.total,
       page: this.page,
       limit: this.limit,
       lastPage: this.lastPage,
       sortBy: this.sortBy,
       sortDir: this.sortDir,
-      filter: this.filter
+      filter: this.filter,
+      items: this.items
     };
   }
 }
