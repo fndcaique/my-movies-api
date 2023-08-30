@@ -12,6 +12,7 @@
   "scripts": {
     "prestart:dev": "npm run -w core build",
     "start:dev": "npm run -w core build:w & npm run -w nest start:dev",
-    "test:core": "npm test -w core"
+    "test:core": "npm test -w core",
+    "test": "jest"
   }
 }
