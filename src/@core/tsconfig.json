@@ -7,10 +7,10 @@
     "sourceMap": true,
     "outDir": "./dist",
     "paths": {
-      "@common/*": [
+      "#common/*": [
         "./src/common/*"
       ],
-      "@category/*": [
+      "category/*": [
         "./src/category/*"
       ],
     }

@@ -1,9 +1,9 @@
 import {
   PaginationOuputMapper,
   PaginationOutput
-} from '@common/application/dto/pagination-output';
-import { SearchInput } from '@common/application/dto/search-input';
-import { UseCase } from '@common/application/use-case';
+} from '#common/application/dto/pagination-output';
+import { SearchInput } from '#common/application/dto/search-input';
+import { UseCase } from '#common/application/use-case';
 import {
   CategoryRepository,
   CategorySearchParams,

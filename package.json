@@ -10,8 +10,8 @@
     "./src/*"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "npm run start:dev -w @fnd-store-api/nest",
-    "test:core": "npm test -w @fnd-store-api/core"
+    "prestart:dev": "npm run -w core build",
+    "start:dev": "npm run -w core build:w & npm run -w nest start:dev",
+    "test:core": "npm test -w core"
   }
 }

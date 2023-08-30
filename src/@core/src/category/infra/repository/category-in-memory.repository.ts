@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { InMemorySearchableRepository } from '@common/domain/repository/in-memory.repository';
-import { SortDirection } from '@common/domain/repository/repository.contracts';
-import { removeAccents } from '@common/domain/utils/functions';
+import { InMemorySearchableRepository } from '#common/domain/repository/in-memory.repository';
+import { SortDirection } from '#common/domain/repository/repository.contracts';
+import { removeAccents } from '#common/domain/utils/functions';
 import { Category } from '../../domain/entities/category';
 import { CategoryRepository } from '../../domain/repository/category.repository';
 

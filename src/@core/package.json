@@ -1,19 +1,20 @@
 {
-  "name": "@fnd-store-api/core",
+  "name": "core",
   "version": "0.0.1",
   "author": "Fernando Soares <fndcaique@gmail.com>",
   "description": "API for fnd-store",
-  "main": "index.js",
+  "main": "dist/index.js",
   "repository": "https://github.com/fndcaique/fnd-store-api",
   "private": true,
   "keywords": [],
-  "exports": {
-    ".": "./dist"
+  "imports": {
+    "#common/*": "./dist/common/*.js",
+    "#category/*": "./dist/category/*.js"
   },
   "typesVersions": {
     ">=5.0": {
-      ".": [
-        "./dist/index.d.ts"
+      "./category": [
+        "./dist/category/index.d.ts"
       ]
     }
   },

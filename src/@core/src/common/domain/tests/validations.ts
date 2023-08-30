@@ -7,32 +7,34 @@ type TestData =
   | { validator: ClassValidatorFields<any>; data: any }
   | (() => unknown);
 
-expect.extend({
-  containsErrorMessages(
-    testData: TestData,
-    expected: FieldErrors<any>
-  ): { pass: boolean; message: () => string } {
-    if (typeof testData === 'function') {
-      try {
-        testData();
-        return { pass: false, message: () => 'Expected data to be invalid' };
-      } catch (error) {
-        const e = error as EntityValidationError;
+if (expect) {
+  expect.extend({
+    containsErrorMessages(
+      testData: TestData,
+      expected: FieldErrors<any>
+    ): { pass: boolean; message: () => string } {
+      if (typeof testData === 'function') {
+        try {
+          testData();
+          return { pass: false, message: () => 'Expected data to be invalid' };
+        } catch (error) {
+          const e = error as EntityValidationError;
 
-        return assertContains(expected, e.errors ?? {});
+          return assertContains(expected, e.errors ?? {});
+        }
+      } else {
+        const { validator, data } = testData;
+        const isValid = validator.validate(data);
+
+        if (isValid) {
+          return { pass: false, message: () => 'Expected data to be invalid' };
+        }
+
+        return assertContains(expected, validator.errors ?? {});
       }
-    } else {
-      const { validator, data } = testData;
-      const isValid = validator.validate(data);
-
-      if (isValid) {
-        return { pass: false, message: () => 'Expected data to be invalid' };
-      }
-
-      return assertContains(expected, validator.errors ?? {});
     }
-  }
-});
+  });
+}
 
 function assertContains(expected: FieldErrors, received: FieldErrors) {
   const pass = expect.objectContaining(received).asymmetricMatch(expected);
