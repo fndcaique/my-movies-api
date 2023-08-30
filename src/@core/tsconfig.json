@@ -1,0 +1,21 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "paths": {
+      "@common/*": [
+        "./src/common/*"
+      ],
+      "@category/*": [
+        "./src/category/*"
+      ],
+    }
+  },
+  "include": [
+    "./src"
+  ]
+}
