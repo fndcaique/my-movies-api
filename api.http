@@ -1,0 +1,23 @@
+GET http://localhost:3000/categories
+
+###
+GET http://localhost:3000/categories/cdd7af0c-041e-4732-9733-64b4789818df
+
+###
+POST http://localhost:3000/categories
+Content-Type: application/json
+
+{
+  "name": "Name"
+}
+
+###
+PUT http://localhost:3000/categories/cdd7af0c-041e-4732-9733-64b4789818df
+Content-Type: application/json
+
+{
+  "name": "Other Name"
+}
+
+###
+DELETE  http://localhost:3000/categories/cdd7af0c-041e-4732-9733-64b4789818df
