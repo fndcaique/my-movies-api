@@ -10,9 +10,9 @@
       "#common/*": [
         "./src/common/*"
       ],
-      "category/*": [
+      "#category/*": [
         "./src/category/*"
-      ],
+      ]
     }
   },
   "include": [

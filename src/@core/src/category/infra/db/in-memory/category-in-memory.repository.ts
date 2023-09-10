@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { Category, CategoryRepository } from '#category/domain';
 import { InMemorySearchableRepository } from '#common/domain/repository/in-memory.repository';
 import { SortDirection } from '#common/domain/repository/repository.contracts';
 import { removeAccents } from '#common/domain/utils/functions';
-import { Category } from '../../domain/entities/category';
-import { CategoryRepository } from '../../domain/repository/category.repository';
 
 export class CategoryInMemoryRepository
   extends InMemorySearchableRepository<Category>

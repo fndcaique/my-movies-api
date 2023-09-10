@@ -2,12 +2,16 @@
   "jsc": {
     "parser": {
       "syntax": "typescript",
-      "decorators": true
+      "decorators": true,
+      "strict": true
     },
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "paths": {
-      "@common/*": [
-        "./common/*"
+      "#common/*": [
+        "./src/common/*"
+      ],
+      "#category/*": [
+        "./src/category/*"
       ]
     }
   }
