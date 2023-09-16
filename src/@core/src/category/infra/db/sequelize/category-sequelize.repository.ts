@@ -6,6 +6,7 @@ import {
   CategorySearchResult
 } from '#category/domain';
 import { NotFoundError, UniqueEntityId } from '#common/domain';
+import { Op } from 'sequelize';
 import { CategoryModel } from './category-model';
 import { CategoryModelMapper } from './category-model-mapper';
 
@@ -41,7 +42,28 @@ export class CategorySequelizeRepository implements CategoryRepository {
     return model;
   }
 
-  search(query: CategorySearchParams): Promise<CategorySearchResult> {
-    throw new Error('Method not implemented.');
+  async search(query: CategorySearchParams): Promise<CategorySearchResult> {
+    const offset = (query.page - 1) * query.limit;
+    const limit = query.limit;
+    const { rows, count } = await this.categoryModel.findAndCountAll({
+      ...(query.filter && {
+        where: { name: { [Op.like]: `%${query.filter}%` } }
+      }),
+      ...(query.sortBy
+        ? { order: [[query.sortBy, query.sortDir]] }
+        : { order: [['createdAt', 'desc']] }),
+      offset,
+      limit
+    });
+
+    return new CategorySearchResult({
+      total: count,
+      page: query.page,
+      limit: query.limit,
+      filter: query.filter,
+      sortBy: query.sortBy,
+      sortDir: query.sortDir,
+      items: rows.map((m) => CategoryModelMapper.toEntity(m))
+    });
   }
 }

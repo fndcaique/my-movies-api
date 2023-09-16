@@ -1,29 +1,15 @@
 import { Category } from '#category/domain';
 import { NotFoundError, UniqueEntityId } from '#common/domain';
-import { Sequelize } from 'sequelize-typescript';
+import { setupSequelize } from '#common/infra/db/testing/helpers/sequelize.helper';
 import { CategoryModel } from './category-model';
 import { CategorySequelizeRepository } from './category-sequelize.repository';
 
 describe('CategorySequelizeRepository Integration Tests', () => {
-  let sequelize: Sequelize;
+  setupSequelize({ models: [CategoryModel] });
+
   let repository: CategorySequelizeRepository;
-
-  beforeAll(() => {
-    sequelize = new Sequelize({
-      dialect: 'sqlite',
-      host: ':memory:',
-      logging: true,
-      models: [CategoryModel]
-    });
-  });
-
   beforeEach(async () => {
-    await sequelize.sync({ force: true });
     repository = new CategorySequelizeRepository(CategoryModel);
-  });
-
-  afterAll(async () => {
-    await sequelize.close();
   });
 
   it('should insert a new entity', async () => {
@@ -93,5 +79,10 @@ describe('CategorySequelizeRepository Integration Tests', () => {
     entities = await repository.findAll();
     expect(entities).toHaveLength(2);
     expect(entities).toEqual([entity, entity2]);
+  });
+
+  test('search', async () => {
+    await CategoryModel.factory().create();
+    console.log(await CategoryModel.findAll());
   });
 });

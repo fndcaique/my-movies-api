@@ -1,28 +1,11 @@
 import { Category } from '#category/domain';
 import { LoadEntityError, UniqueEntityId } from '#common/domain';
-import { Sequelize } from 'sequelize-typescript';
+import { setupSequelize } from '#common/infra/db/testing/helpers/sequelize.helper';
 import { CategoryModel } from './category-model';
 import { CategoryModelMapper } from './category-model-mapper';
 
 describe('CategoryModelMapper Integration Tests', () => {
-  let sequelize: Sequelize;
-
-  beforeAll(() => {
-    sequelize = new Sequelize({
-      dialect: 'sqlite',
-      host: ':memory:',
-      logging: true,
-      models: [CategoryModel]
-    });
-  });
-
-  beforeEach(async () => {
-    await sequelize.sync({ force: true });
-  });
-
-  afterAll(async () => {
-    await sequelize.close();
-  });
+  setupSequelize({ models: [CategoryModel] });
 
   it('should throw LoadEntityError when category is invalid', () => {
     const model = CategoryModel.build({
@@ -57,6 +40,7 @@ describe('CategoryModelMapper Integration Tests', () => {
       new Error('Generic error')
     );
     expect(spyValidate).toHaveBeenCalledTimes(1);
+    spyValidate.mockReset();
   });
 
   it('should convert a category model to a category entity', () => {

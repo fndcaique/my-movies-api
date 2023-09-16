@@ -1,3 +1,4 @@
+import { SequelizeModelFactory } from '#common/infra';
 import {
   Column,
   DataType,
@@ -31,4 +32,16 @@ export class CategoryModel extends Model<CategoryModelProperties> {
 
   @Column({ type: DataType.DATE, allowNull: false })
   declare createdAt: Date;
+
+  static factory() {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const chance: Chance.Chance = require('chance')();
+    return new SequelizeModelFactory(CategoryModel, () => ({
+      id: chance.guid({ version: 4 }),
+      name: chance.word(),
+      description: chance.sentence(),
+      isActive: true,
+      createdAt: chance.date()
+    }));
+  }
 }

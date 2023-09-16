@@ -3,10 +3,10 @@ import { Entity } from '../entity/entity';
 import { NotFoundError } from '../errors/not-found.error';
 import { UniqueEntityId } from '../value-objects/unique-entity-id.vo';
 import {
-    RepositoryInterface,
-    SearchParams,
-    SearchResult,
-    SearchableRepositoryInterface
+  RepositoryInterface,
+  SearchParams,
+  SearchResult,
+  SearchableRepositoryInterface
 } from './repository.contracts';
 
 export abstract class InMemoryRepository<E extends Entity>

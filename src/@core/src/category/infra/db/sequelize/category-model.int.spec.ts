@@ -1,25 +1,9 @@
-import { DataType, Sequelize } from 'sequelize-typescript';
+import { setupSequelize } from '#common/infra/db/testing/helpers/sequelize.helper';
+import { DataType } from 'sequelize-typescript';
 import { CategoryModel } from './category-model';
 
 describe('CategoryModel Integration Tests', () => {
-  let sequelize: Sequelize;
-
-  beforeAll(() => {
-    sequelize = new Sequelize({
-      dialect: 'sqlite',
-      host: ':memory:',
-      logging: true,
-      models: [CategoryModel]
-    });
-  });
-
-  beforeEach(async () => {
-    await sequelize.sync({ force: true });
-  });
-
-  afterAll(async () => {
-    await sequelize.close();
-  });
+  setupSequelize({ models: [CategoryModel] });
 
   test('mapping attributes', () => {
     const attributesMap = CategoryModel.getAttributes();
@@ -75,7 +59,7 @@ describe('CategoryModel Integration Tests', () => {
     expect(createdAtAttr.type).toEqual(DataType.DATE());
   });
 
-  test('create', async () => {
+  test('create method', async () => {
     const arrange = {
       id: '01a8171e-6283-4940-a468-41c5c8f49be8',
       name: 'Name',
