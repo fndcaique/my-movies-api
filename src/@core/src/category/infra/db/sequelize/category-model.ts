@@ -7,7 +7,7 @@ import {
   Table
 } from 'sequelize-typescript';
 
-export type CategoryModelProperties = {
+export type CategoryModelProps = {
   id: string;
   name: string;
   description: string | null;
@@ -16,7 +16,7 @@ export type CategoryModelProperties = {
 };
 
 @Table({ tableName: 'category', timestamps: false })
-export class CategoryModel extends Model<CategoryModelProperties> {
+export class CategoryModel extends Model<CategoryModelProps> {
   @PrimaryKey
   @Column({ type: DataType.UUID })
   declare id: string;
@@ -36,12 +36,15 @@ export class CategoryModel extends Model<CategoryModelProperties> {
   static factory() {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const chance: Chance.Chance = require('chance')();
-    return new SequelizeModelFactory(CategoryModel, () => ({
-      id: chance.guid({ version: 4 }),
-      name: chance.word(),
-      description: chance.sentence(),
-      isActive: true,
-      createdAt: chance.date()
-    }));
+    return new SequelizeModelFactory<CategoryModel, CategoryModelProps>(
+      CategoryModel,
+      () => ({
+        id: chance.guid({ version: 4 }),
+        name: chance.word(),
+        description: chance.sentence(),
+        isActive: true,
+        createdAt: chance.date()
+      })
+    );
   }
 }

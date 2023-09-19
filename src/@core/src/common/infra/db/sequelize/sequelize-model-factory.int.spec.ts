@@ -27,7 +27,10 @@ class StubModel extends Model {
   }));
 
   static factory() {
-    return new SequelizeModelFactory(StubModel, StubModel.mockFactory);
+    return new SequelizeModelFactory<StubModel, { id: string; name: string }>(
+      StubModel,
+      StubModel.mockFactory
+    );
   }
 }
 

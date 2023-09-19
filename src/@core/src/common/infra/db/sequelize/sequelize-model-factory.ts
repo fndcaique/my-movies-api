@@ -1,9 +1,10 @@
-export class SequelizeModelFactory {
+import { Model } from 'sequelize-typescript';
+export class SequelizeModelFactory<ModelClass extends Model, ModelProps = any> {
   private _count = 1;
 
   constructor(
     private model,
-    private defaultFactoryProps: () => any
+    private defaultFactoryProps: () => ModelProps
   ) {}
 
   count(value: number) {
@@ -11,15 +12,17 @@ export class SequelizeModelFactory {
     return this;
   }
 
-  async create(data?) {
+  async create(data?: ModelProps): Promise<ModelClass> {
     return this.model.create(data ? data : this.defaultFactoryProps());
   }
 
-  make(data?) {
+  make(data?: ModelProps): ModelClass {
     return this.model.build(data ? data : this.defaultFactoryProps());
   }
 
-  async bulkCreate(factoryProps?: (index: number) => any) {
+  async bulkCreate(
+    factoryProps?: (index: number) => ModelProps
+  ): Promise<ModelClass[]> {
     const factory = factoryProps ?? this.defaultFactoryProps;
     const dataArray = Array.from(
       {
@@ -30,7 +33,7 @@ export class SequelizeModelFactory {
     return this.model.bulkCreate(dataArray);
   }
 
-  bulkMake(factoryProps?: (index: number) => any) {
+  bulkMake(factoryProps?: (index: number) => ModelProps): ModelClass[] {
     const factory = factoryProps ?? this.defaultFactoryProps;
     const dataArray = Array.from(
       {
