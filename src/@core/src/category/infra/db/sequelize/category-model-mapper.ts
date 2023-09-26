@@ -13,6 +13,7 @@ export class CategoryModelMapper {
       return new Category(otherData, new UniqueEntityId(id));
     } catch (e) {
       if (e instanceof EntityValidationError) {
+        console.error(e);
         throw new LoadEntityError(e.errors);
       }
       throw e;

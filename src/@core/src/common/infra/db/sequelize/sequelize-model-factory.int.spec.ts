@@ -1,5 +1,4 @@
 import { isValidUUID } from '#common/domain';
-import _chance from 'chance';
 import {
   Column,
   DataType,
@@ -10,6 +9,7 @@ import {
 import { setupSequelize } from '../testing/helpers/sequelize.helper';
 import { SequelizeModelFactory } from './sequelize-model-factory';
 
+import _chance from 'chance';
 const chance = _chance();
 
 @Table
