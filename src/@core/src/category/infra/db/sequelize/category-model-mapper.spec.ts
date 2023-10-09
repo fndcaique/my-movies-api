@@ -49,8 +49,8 @@ describe('CategoryModelMapper Integration Tests', () => {
       id: '01a8171e-6283-4940-a468-41c5c8f49be8',
       name: 'name',
       description: 'description',
-      isActive: true,
-      createdAt
+      is_active: true,
+      created_at: createdAt
     });
 
     const entity = CategoryModelMapper.toEntity(model);

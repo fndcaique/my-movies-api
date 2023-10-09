@@ -14,7 +14,9 @@ export class CategorySequelizeRepository implements CategoryRepository {
   constructor(private categoryModel: typeof CategoryModel) {}
 
   async insert(entity: Category): Promise<void> {
-    await this.categoryModel.create(entity.toJSON());
+    await this.categoryModel.create(
+      CategoryModelMapper.toModel(entity).toJSON()
+    );
   }
 
   async findById(id: string | UniqueEntityId): Promise<Category> {
@@ -29,9 +31,12 @@ export class CategorySequelizeRepository implements CategoryRepository {
 
   async update(entity: Category): Promise<void> {
     await this._get(entity.id);
-    await this.categoryModel.update(entity.toJSON(), {
-      where: { id: entity.id }
-    });
+    await this.categoryModel.update(
+      CategoryModelMapper.toModel(entity).toJSON(),
+      {
+        where: { id: entity.id }
+      }
+    );
   }
 
   async delete(id: string | UniqueEntityId): Promise<void> {
@@ -54,11 +59,19 @@ export class CategorySequelizeRepository implements CategoryRepository {
     const limit = query.limit;
     const { rows, count } = await this.categoryModel.findAndCountAll({
       ...(query.filter && {
-        where: { name: { [Op.like]: `%${query.filter}%` } }
+        where: {
+          name: {
+            [Op.like]: `%${query.filter}%`
+          }
+        }
       }),
       ...(query.sortBy
-        ? { order: [[query.sortBy, query.sortDir]] }
-        : { order: [['createdAt', 'desc']] }),
+        ? {
+            order: [
+              [CategoryModelMapper.toModelPropName(query.sortBy), query.sortDir]
+            ]
+          }
+        : { order: [['created_at', 'asc']] }),
       offset,
       limit
     });

@@ -31,7 +31,7 @@ describe('GetCategoryUseCase Integration Tests', () => {
       name: model.name,
       description: model.description,
       isActive: true,
-      createdAt: model.createdAt
+      createdAt: model.created_at
     });
 
     const createdAt = new Date('1998-02-13');
@@ -39,8 +39,8 @@ describe('GetCategoryUseCase Integration Tests', () => {
       id: chance.guid({ version: 4 }),
       name: 'Test',
       description: 'description',
-      isActive: true,
-      createdAt
+      is_active: true,
+      created_at: createdAt
     });
     output = await useCase.execute({ id: model.id });
     expect(output).toEqual({

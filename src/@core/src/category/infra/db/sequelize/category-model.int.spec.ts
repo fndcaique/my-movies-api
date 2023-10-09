@@ -7,15 +7,13 @@ describe('CategoryModel Integration Tests', () => {
 
   test('mapping attributes', () => {
     const attributesMap = CategoryModel.getAttributes();
-    console.log(attributesMap);
-
     const attributes = Object.keys(attributesMap);
     expect(attributes).toEqual([
       'id',
       'name',
       'description',
-      'isActive',
-      'createdAt'
+      'is_active',
+      'created_at'
     ]);
 
     const idAttr = attributesMap.id;
@@ -42,18 +40,18 @@ describe('CategoryModel Integration Tests', () => {
       type: DataType.STRING(256)
     });
 
-    const isActiveAttr = attributesMap.isActive;
+    const isActiveAttr = attributesMap.is_active;
     expect(isActiveAttr).toMatchObject({
-      field: 'isActive',
-      fieldName: 'isActive',
+      field: 'is_active',
+      fieldName: 'is_active',
       allowNull: false,
       type: DataType.BOOLEAN()
     });
 
-    const createdAtAttr = attributesMap.createdAt;
+    const createdAtAttr = attributesMap.created_at;
     expect(createdAtAttr).toMatchObject({
-      field: 'createdAt',
-      fieldName: 'createdAt',
+      field: 'created_at',
+      fieldName: 'created_at',
       allowNull: false
     });
     expect(createdAtAttr.type).toEqual(DataType.DATE());
@@ -63,8 +61,8 @@ describe('CategoryModel Integration Tests', () => {
     const arrange = {
       id: '01a8171e-6283-4940-a468-41c5c8f49be8',
       name: 'Name',
-      isActive: true,
-      createdAt: new Date()
+      is_active: true,
+      created_at: new Date()
     };
 
     const category = await CategoryModel.create(arrange);

@@ -11,8 +11,8 @@ export type CategoryModelProps = {
   id: string;
   name: string;
   description: string | null;
-  isActive: boolean;
-  createdAt: Date;
+  is_active: boolean;
+  created_at: Date;
 };
 
 @Table({ tableName: 'category', timestamps: false })
@@ -28,10 +28,10 @@ export class CategoryModel extends Model<CategoryModelProps> {
   declare description: string | null;
 
   @Column({ type: DataType.BOOLEAN, allowNull: false })
-  declare isActive: boolean;
+  declare is_active: boolean;
 
   @Column({ type: DataType.DATE, allowNull: false })
-  declare createdAt: Date;
+  declare created_at: Date;
 
   static factory() {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -42,8 +42,8 @@ export class CategoryModel extends Model<CategoryModelProps> {
         id: chance.guid({ version: 4 }),
         name: chance.word(),
         description: chance.sentence(),
-        isActive: true,
-        createdAt: chance.date()
+        is_active: true,
+        created_at: chance.date()
       })
     );
   }

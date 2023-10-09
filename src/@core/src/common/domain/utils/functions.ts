@@ -92,3 +92,6 @@ export function deepEqual(object1: any, object2: any) {
 export function isObject(object: unknown) {
   return object != null && typeof object === 'object';
 }
+
+export const toSnakeCase = (str: string) =>
+  str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
