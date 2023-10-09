@@ -9,15 +9,14 @@ import { CategoryModel } from './category-model';
 
 export class CategoryModelMapper {
   static toEntity(model: CategoryModel) {
-    const { id, ...otherData } = model.toJSON();
+    const { id, name, description, is_active, created_at } = model.toJSON();
     try {
       return new Category(
-        { ...otherData, createdAt: otherData.created_at },
+        { name, description, isActive: is_active, createdAt: created_at },
         new UniqueEntityId(id)
       );
     } catch (e) {
       if (e instanceof EntityValidationError) {
-        console.error(e);
         throw new LoadEntityError(e.errors);
       }
       throw e;
