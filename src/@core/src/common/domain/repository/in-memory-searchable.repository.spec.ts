@@ -200,7 +200,7 @@ describe('InMemorySearchableRepository Unit Tests', () => {
       });
     });
 
-    it('should apply paginate and sort', async () => {
+    describe('should apply paginate and sort', () => {
       const items = [
         new StubEntity({ name: 'b', price: 1 }),
         new StubEntity({ name: 'a', price: 2 }),
@@ -208,7 +208,9 @@ describe('InMemorySearchableRepository Unit Tests', () => {
         new StubEntity({ name: 'e', price: 4 }),
         new StubEntity({ name: 'c', price: 5 })
       ];
-      repository.items = items;
+      beforeEach(() => {
+        repository.items = items;
+      });
 
       const arrange = [
         {
@@ -287,11 +289,14 @@ describe('InMemorySearchableRepository Unit Tests', () => {
           })
         }
       ];
-      expect.assertions(arrange.length);
 
-      arrange.forEach((item) => {
-        expect(repository.search(item.params)).resolves.toEqual(item.result);
-      });
+      test.each(arrange)(
+        'when arrange item is %j',
+        async ({ params, result }) => {
+          const searchResult = await repository.search(params);
+          expect(searchResult).toEqual(result);
+        }
+      );
     });
 
     it('should search using filter, sort and paginate', async () => {

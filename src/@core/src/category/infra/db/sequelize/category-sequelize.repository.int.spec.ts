@@ -342,7 +342,7 @@ describe('CategorySequelizeRepository Integration Tests', () => {
       }
     });
 
-    it('should search using filter, sort and paginate', async () => {
+    describe('should search using filter, sort and paginate', () => {
       const defaultProps = {
         description: null,
         isActive: true,
@@ -376,8 +376,6 @@ describe('CategorySequelizeRepository Integration Tests', () => {
         }
       ];
 
-      const categories = await CategoryModel.bulkCreate(categoriesProp);
-
       const arrange = [
         {
           params: new SearchParams({
@@ -390,8 +388,14 @@ describe('CategorySequelizeRepository Integration Tests', () => {
           result: new SearchResult({
             total: 2,
             items: [
-              CategoryModelMapper.toEntity(categories[3]),
-              CategoryModelMapper.toEntity(categories[1])
+              new Category(
+                categoriesProp[3],
+                new UniqueEntityId(categoriesProp[3].id)
+              ),
+              new Category(
+                categoriesProp[1],
+                new UniqueEntityId(categoriesProp[1].id)
+              )
             ],
             page: 1,
             limit: 2,
@@ -410,9 +414,18 @@ describe('CategorySequelizeRepository Integration Tests', () => {
           result: new SearchResult({
             total: 3,
             items: [
-              CategoryModelMapper.toEntity(categories[2]),
-              CategoryModelMapper.toEntity(categories[4]),
-              CategoryModelMapper.toEntity(categories[0])
+              new Category(
+                categoriesProp[2],
+                new UniqueEntityId(categoriesProp[2].id)
+              ),
+              new Category(
+                categoriesProp[4],
+                new UniqueEntityId(categoriesProp[4].id)
+              ),
+              new Category(
+                categoriesProp[0],
+                new UniqueEntityId(categoriesProp[0].id)
+              )
             ],
             page: 1,
             limit: 4,
@@ -431,10 +444,22 @@ describe('CategorySequelizeRepository Integration Tests', () => {
           result: new SearchResult({
             total: 4,
             items: [
-              CategoryModelMapper.toEntity(categories[2]),
-              CategoryModelMapper.toEntity(categories[4]),
-              CategoryModelMapper.toEntity(categories[3]),
-              CategoryModelMapper.toEntity(categories[0])
+              new Category(
+                categoriesProp[2],
+                new UniqueEntityId(categoriesProp[2].id)
+              ),
+              new Category(
+                categoriesProp[4],
+                new UniqueEntityId(categoriesProp[4].id)
+              ),
+              new Category(
+                categoriesProp[3],
+                new UniqueEntityId(categoriesProp[3].id)
+              ),
+              new Category(
+                categoriesProp[0],
+                new UniqueEntityId(categoriesProp[0].id)
+              )
             ],
             page: 1,
             limit: 4,
@@ -445,14 +470,56 @@ describe('CategorySequelizeRepository Integration Tests', () => {
         }
       ];
 
-      expect.assertions(arrange.length);
+      beforeEach(async () => {
+        await CategoryModel.bulkCreate(categoriesProp);
+      });
 
-      for (let i = 0; i < arrange.length; i++) {
-        const item = arrange[i];
-        await expect(repository.search(item.params)).resolves.toEqual(
-          item.result
-        );
-      }
+      // expect.assertions(arrange.length);
+
+      // for (let i = 0; i < arrange.length; i++) {
+      test.each(arrange)('when value is %j', async ({ params, result }) => {
+        await expect(repository.search(params)).resolves.toEqual(result);
+      });
+      // }
     });
+  });
+
+  it('should throw an error on update when an entity not found', async () => {
+    const entity = new Category({ name: 'Test' });
+    await expect(repository.update(entity)).rejects.toThrow(
+      new NotFoundError(`Entity Not Found using ID ${entity.id}`)
+    );
+  });
+
+  it('should update an entity', async () => {
+    const entity = new Category({ name: 'Test' });
+    repository.insert(entity);
+
+    entity.update('New Category Name', entity.description);
+
+    await repository.update(entity);
+    const entityFound = await repository.findById(entity.id);
+    expect(entityFound).toEqual(entity);
+  });
+
+  it('should throw an error on delete when an entity not found', async () => {
+    const entity = new Category({ name: 'Test' });
+    await expect(repository.delete(entity.id)).rejects.toThrow(
+      new NotFoundError(`Entity Not Found using ID ${entity.id}`)
+    );
+  });
+
+  it('should delete an entity', async () => {
+    const entity = new Category({ name: 'Test' });
+    repository.insert(entity);
+
+    await repository.delete(entity.id);
+
+    await expect(repository.findById(entity.id)).rejects.toThrow(
+      new NotFoundError(`Entity Not Found using ID ${entity.id}`)
+    );
+
+    const entityFound = await CategoryModel.findByPk(entity.id);
+    expect(entityFound).toBeNull();
   });
 });

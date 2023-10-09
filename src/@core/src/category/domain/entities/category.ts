@@ -17,7 +17,13 @@ export type CreateCategoryProperties = Partial<CategoryProperties> & {
 export class Category extends Entity<CategoryProperties> {
   constructor(props: CreateCategoryProperties, id?: UniqueEntityId) {
     Category.validate(props);
-    super(props as CategoryProperties, id);
+    const onlyAcceptedProps: CreateCategoryProperties = {
+      name: props.name,
+      createdAt: props.createdAt,
+      description: props.description,
+      isActive: props.isActive
+    };
+    super(onlyAcceptedProps as CategoryProperties, id);
     this.description = props.description ?? null;
     this.props.isActive = props.isActive ?? true;
     this.props.createdAt = props.createdAt ?? new Date();

@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type FieldErrors = {
-  string: string[];
+  [key: string]: string[];
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
