@@ -44,7 +44,7 @@ describe('CategoryValidator Tests', () => {
     });
   });
 
-  it('should test valid cases for fields', () => {
+  describe('should test valid cases for fields', () => {
     const arrange = [
       {
         name: 'value'
@@ -70,7 +70,7 @@ describe('CategoryValidator Tests', () => {
       }
     ];
 
-    arrange.forEach((item) => {
+    test.each(arrange)('%o should be valid CategoryRulesProperties', (item) => {
       expect(validator.validate(item)).toBe(true);
       expect(validator.validatedData).toEqual(new CategoryRules(item));
     });

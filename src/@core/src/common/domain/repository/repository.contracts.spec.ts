@@ -5,7 +5,7 @@ import {
 } from './repository.contracts';
 describe('Search Unit Tests', () => {
   describe('SearchParams Unit Tests', () => {
-    test('page prop', () => {
+    describe('page prop', () => {
       const arrange = [
         { page: null, expected: 1 },
         { page: undefined, expected: 1 },
@@ -23,7 +23,7 @@ describe('Search Unit Tests', () => {
         { page: 300, expected: 300 }
       ];
 
-      arrange.forEach((item) => {
+      test.each(arrange)('when page is %o', (item) => {
         expect(
           new SearchParams({ page: item.page as unknown as number }).page
         ).toBe(item.expected);

@@ -1,4 +1,4 @@
-import { deepFreeze } from './functions';
+import { deepFreeze, toSnakeCase } from './functions';
 
 describe('Functions Unit Tests', () => {
   describe('deepFreeze', () => {
@@ -37,5 +37,33 @@ describe('Functions Unit Tests', () => {
 
       expect(obj.deep.prop3).toBeInstanceOf(Date);
     });
+  });
+
+  describe('toSnakeCase', () => {
+    const arrange = [
+      {
+        input: 'someFunction',
+        output: 'some_function'
+      },
+      {
+        input: 'isActive',
+        output: 'is_active'
+      },
+      {
+        input: 'createdAt',
+        output: 'created_at'
+      },
+      {
+        input: 'SNAKE',
+        output: '_s_n_a_k_e'
+      }
+    ];
+
+    test.each(arrange)(
+      'when input is $input the output must be $output',
+      ({ input, output }) => {
+        expect(toSnakeCase(input)).toBe(output);
+      }
+    );
   });
 });

@@ -1,5 +1,6 @@
 import { Entity } from '../entity/entity';
 import { NotFoundError } from '../errors/not-found.error';
+import { UniqueEntityId } from '../value-objects';
 import { InMemoryRepository } from './in-memory.repository';
 
 type StubEntityProps = {
@@ -25,13 +26,23 @@ describe('InMemoryRepository Unit Tests', () => {
     expect(entity.toJSON()).toEqual(repository.items[0].toJSON());
   });
 
-  it('should throw error when entity not found', () => {
-    expect(repository.findById('fake id')).rejects.toThrow(
+  it('should throw error when entity not found', async () => {
+    await expect(repository.findById('fake id')).rejects.toThrow(
       new NotFoundError('Entity Not Found using ID fake id')
     );
 
-    expect(
+    await expect(
       repository.findById('0a8b9e21-b580-4a17-a88f-3080aa7d5b88')
+    ).rejects.toThrow(
+      new NotFoundError(
+        'Entity Not Found using ID 0a8b9e21-b580-4a17-a88f-3080aa7d5b88'
+      )
+    );
+
+    await expect(
+      repository.findById(
+        new UniqueEntityId('0a8b9e21-b580-4a17-a88f-3080aa7d5b88')
+      )
     ).rejects.toThrow(
       new NotFoundError(
         'Entity Not Found using ID 0a8b9e21-b580-4a17-a88f-3080aa7d5b88'

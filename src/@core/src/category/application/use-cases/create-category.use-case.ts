@@ -1,6 +1,6 @@
+import { Category } from '#category/domain/entities/category';
+import { CategoryRepository } from '#category/domain/repository/category.repository';
 import { UseCase } from '#common/application/use-case';
-import { Category } from '../../domain/entities/category';
-import { CategoryRepository } from '../../domain/repository/category.repository';
 import { CategoryOuputMappper, CategoryOutput } from '../dto/category-output';
 
 export class CreateCategoryUseCase

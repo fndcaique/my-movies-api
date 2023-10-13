@@ -11,7 +11,7 @@ describe('ValueObject Uni Tests', () => {
     expect(vo.value).toEqual({ prop: 'prop value' });
   });
 
-  it('should convert to an string', () => {
+  describe('should convert to an string', () => {
     const date = new Date();
     const arrange = [
       { received: undefined, expected: 'undefined' },
@@ -29,11 +29,17 @@ describe('ValueObject Uni Tests', () => {
       }
     ];
 
-    arrange.forEach(({ received, expected }) => {
-      const vo = new StubValueObject(received);
-
-      expect(`${vo + ''}`).toBe(expected);
-    });
+    test.each(arrange)(
+      'from $received to string $expected',
+      ({ received, expected }) => {
+        const vo = new StubValueObject(received);
+        expect(`${vo + ''}`).toBe(expected);
+      }
+    );
+    // arrange.forEach(({ received, expected }) => {
+    //   const vo = new StubValueObject(received);
+    //   expect(`${vo + ''}`).toBe(expected);
+    // });
   });
 
   it('should be an immutable value object', () => {

@@ -1,7 +1,7 @@
-import { Category } from '../../domain/entities/category';
-import { CategorySearchResult } from '../../domain/repository/category.repository';
-import { CategoryInMemoryRepository } from '../../infra/repository/category-in-memory.repository';
-import { ListCategoriesUseCase } from './list-categories.use-case';
+import { Category } from '../../../../domain/entities/category';
+import { CategorySearchResult } from '../../../../domain/repository/category.repository';
+import { CategoryInMemoryRepository } from '../../../../infra/db/in-memory/category-in-memory.repository';
+import { ListCategoriesUseCase } from '../../list-categories.use-case';
 
 describe('ListCategoriesUseCase Unit Tests', () => {
   let useCase: ListCategoriesUseCase;
@@ -54,7 +54,7 @@ describe('ListCategoriesUseCase Unit Tests', () => {
     });
   });
 
-  it('should return output with categories ordered by createdAt when use empty input', async () => {
+  it('should return output with categories ordered by createdAt asc when use empty input', async () => {
     const createdAt = new Date();
     const items = [
       new Category({ name: 'Test 1', createdAt }),
