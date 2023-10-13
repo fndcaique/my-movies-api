@@ -1,9 +1,10 @@
+import { configTest } from '#common/infra/config';
 import { Sequelize, SequelizeOptions } from 'sequelize-typescript';
 
 const defaultSequelizeOptions: SequelizeOptions = {
-  dialect: 'sqlite',
-  host: ':memory:',
-  logging: false
+  dialect: configTest.db.dialect,
+  host: configTest.db.host,
+  logging: configTest.db.logging
 };
 
 export function setupSequelize(options: SequelizeOptions = {}) {
@@ -26,3 +27,7 @@ export function setupSequelize(options: SequelizeOptions = {}) {
     }
   };
 }
+
+// export function makeSequelizeOptions(config: Config) {
+
+// }
