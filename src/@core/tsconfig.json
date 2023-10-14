@@ -17,5 +17,10 @@
   },
   "include": [
     "./src"
+  ],
+  "exclude": [
+    "__tests__",
+    "testing",
+    "tests"
   ]
 }

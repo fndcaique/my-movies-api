@@ -7,7 +7,7 @@ import type { Config } from 'jest';
 
 const config: Config = {
   displayName: {
-    name: '@core',
+    name: '@fnd/core',
     color: 'blue'
   },
   // All imported modules in your tests should be mocked automatically
