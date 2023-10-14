@@ -3,18 +3,43 @@
   "version": "0.0.1",
   "author": "Fernando Soares <fndcaique@gmail.com>",
   "description": "API for fnd-store",
-  "main": "dist/index.js",
+  "main": "index.js",
   "repository": "https://github.com/fndcaique/fnd-store-api",
   "private": true,
   "keywords": [],
   "imports": {
+    "#common/domain": "./dist/common/domain/index.js",
     "#common/*": "./dist/common/*.js",
+    "#category/domain": "./dist/category/domain/index.js",
     "#category/*": "./dist/category/*.js"
+  },
+  "exports": {
+    "./common/application": "./dist/common/application/index.js",
+    "./common/domain": "./dist/common/domain/index.js",
+    "./common/infra": "./dist/common/infra/index.js",
+    "./category/application": "./dist/category/application/index.js",
+    "./category/domain": "./dist/category/domain/index.js",
+    "./category/infra": "./dist/category/infra/index.js"
   },
   "typesVersions": {
     ">=5.0": {
-      "./category": [
-        "./dist/category/index.d.ts"
+      "common/application": [
+        "./dist/common/application/index.d.ts"
+      ],
+      "common/domain": [
+        "./dist/common/domain/index.d.ts"
+      ],
+      "common/infra": [
+        "./dist/common/infra/index.d.ts"
+      ],
+      "category/application": [
+        "./dist/category/application/index.d.ts"
+      ],
+      "category/domain": [
+        "./dist/category/domain/index.d.ts"
+      ],
+      "category/infra": [
+        "./dist/category/infra/index.d.ts"
       ]
     }
   },
@@ -29,7 +54,7 @@
     "build": "tsc -b ./tsconfig.json",
     "build:w": "tsc -b ./tsconfig.json -w",
     "cti": "cti",
-    "cti:@core": "sh ./cti.sh"
+    "cti:make": "sh ./cti.sh"
   },
   "dependencies": {
     "class-validator": "^0.14.0",

@@ -7,12 +7,13 @@
   "author": " <fndcaique@gmail.com>",
   "license": "UNLICENSED",
   "workspaces": [
-    "./src/*"
+    "./src/@core",
+    "./src/nest"
   ],
   "scripts": {
-    "prestart:dev": "npm run -w core build",
-    "start:dev": "npm run -w core build:w & npm run -w nest start:dev",
-    "test:core": "npm run -w core test",
+    "prestart:dev": "npm run build -w core",
+    "start:dev": "npm run build:w -w core & npm run start:dev -w nest",
+    "test:core": "npm run test -w core",
     "test": "jest"
   }
 }
