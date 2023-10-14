@@ -21,5 +21,5 @@ function makeConfig(envFilePath: string): Config {
   };
 }
 
-const envTestingFilePath = join(__dirname, '../../../../.env.testing');
+const envTestingFilePath = join(__dirname, '../../../../.env.test');
 export const configTest = makeConfig(envTestingFilePath);
