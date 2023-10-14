@@ -7,18 +7,16 @@ import {
 export abstract class ClassValidatorFields<PropsValidated>
   implements ValidatorFieldsInterface<PropsValidated>
 {
-  errors: FieldErrors<PropsValidated> | null = null;
+  errors: FieldErrors | null = null;
   validatedData: PropsValidated | null = null;
 
   validate(data: PropsValidated): boolean {
     const errors = validateSync(data as object);
     if (errors.length) {
-      this.errors = errors.reduce<FieldErrors<PropsValidated>>((acc, item) => {
-        acc[item.property as keyof PropsValidated] = Object.values(
-          item.constraints!
-        );
+      this.errors = errors.reduce<FieldErrors>((acc, item) => {
+        acc[item.property] = Object.values(item.constraints!);
         return acc;
-      }, {} as FieldErrors<PropsValidated>);
+      }, {} as FieldErrors);
     } else {
       this.validatedData = data;
     }

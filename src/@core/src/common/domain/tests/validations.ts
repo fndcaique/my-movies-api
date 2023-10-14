@@ -11,7 +11,7 @@ if (expect) {
   expect.extend({
     containsErrorMessages(
       testData: TestData,
-      expected: FieldErrors<any>
+      expected: FieldErrors
     ): { pass: boolean; message: () => string } {
       if (typeof testData === 'function') {
         try {
