@@ -1,5 +1,5 @@
-import { configTest } from '#common/infra/config';
 import { Sequelize, SequelizeOptions } from 'sequelize-typescript';
+import { configTest } from '../../../config';
 
 const defaultSequelizeOptions: SequelizeOptions = {
   dialect: configTest.db.dialect,

@@ -1,5 +1,5 @@
-import { ListCategoriesInput } from 'core/dist/category/application/use-cases';
-import { SortDirection } from 'core/dist/common/domain/repository/repository.contracts';
+import { ListCategoriesInput } from '@fnd/core/category/application';
+import { SortDirection } from '@fnd/core/common/domain';
 
 export class SearchCategoryDto implements ListCategoriesInput {
   page?: number;

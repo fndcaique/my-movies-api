@@ -1,22 +1,36 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-import { Provider } from '@nestjs/common';
 import {
   CreateCategoryUseCase,
   DeleteCategoryUseCase,
   GetCategoryUseCase,
   ListCategoriesUseCase,
   UpdateCategoryUseCase,
-} from 'core/dist/category/application/use-cases';
-import { CategoryRepository } from 'core/dist/category/domain/repository/category.repository';
-import { CategoryInMemoryRepository } from 'core/dist/category/infra/repository';
+} from '@fnd/core/category/application';
+import { CategoryRepository } from '@fnd/core/category/domain';
+import {
+  CategoryInMemoryRepository,
+  CategoryModel,
+  CategorySequelizeRepository,
+} from '@fnd/core/category/infra';
+import { Provider } from '@nestjs/common';
+import { getModelToken } from '@nestjs/sequelize';
 
 const CATEGORY_REPOSITORY_NAME = 'CategoryRepository';
 
 export namespace CATEGORIES_PROVIDERS {
-  export const REPOSITORY: Provider = {
-    provide: CATEGORY_REPOSITORY_NAME,
-    useClass: CategoryInMemoryRepository,
-  };
+  export namespace REPOSITORIES {
+    export const CATEGORY_IN_MEMORY_REPOSITORY: Provider = {
+      provide: CATEGORY_REPOSITORY_NAME,
+      useClass: CategoryInMemoryRepository,
+    };
+
+    export const CATEGORY_SEQUELIZE_REPOSITORY: Provider = {
+      provide: 'CategorySequelizeRepository',
+      useFactory: (categoryModel: typeof CategoryModel) =>
+        new CategorySequelizeRepository(categoryModel),
+      inject: [getModelToken(CategoryModel)],
+    };
+  }
 
   export namespace USE_CASES {
     export const CREATE_CATEGORY: Provider = {

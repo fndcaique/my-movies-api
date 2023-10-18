@@ -1,4 +1,4 @@
-import { UpdateCategoryInput } from 'core/dist/category/application/use-cases';
+import { UpdateCategoryInput } from '@fnd/core/category/application';
 
 export class UpdateCategoryDto implements Omit<UpdateCategoryInput, 'id'> {
   name: string;

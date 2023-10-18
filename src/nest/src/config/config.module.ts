@@ -3,7 +3,7 @@ import {
   ConfigModuleOptions,
   ConfigModule as NestConfigModule,
 } from '@nestjs/config';
-import Joi from 'joi';
+import * as Joi from 'joi';
 import { join } from 'path';
 
 type DB_SCHEMA_TYPE = {
@@ -47,6 +47,7 @@ export class ConfigModule extends NestConfigModule {
   static forRoot(options: ConfigModuleOptions = {}): DynamicModule {
     return super.forRoot({
       ...options,
+      isGlobal: true,
       envFilePath: [
         ...(Array.isArray(options.envFilePath)
           ? options.envFilePath

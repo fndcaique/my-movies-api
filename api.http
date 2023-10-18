@@ -12,7 +12,7 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:3000/categories/cdd7af0c-041e-4732-9733-64b4789818df
+PUT http://localhost:3000/categories/600d0d39-1ec9-40e5-8fec-e582ce93b36f
 Content-Type: application/json
 
 {
@@ -20,4 +20,4 @@ Content-Type: application/json
 }
 
 ###
-DELETE  http://localhost:3000/categories/cdd7af0c-041e-4732-9733-64b4789818df
+DELETE  http://localhost:3000/categories/3a03a4da-8bad-4646-aeda-160d5cf6157d

@@ -16,11 +16,13 @@
     }
   },
   "include": [
-    "./src"
+    "src/**/*"
   ],
   "exclude": [
-    "__tests__",
+    "node_modules",
+    "**/*__tests__/",
     "testing",
-    "tests"
+    "**/*testing/",
+    "**/*.spec.ts"
   ]
 }

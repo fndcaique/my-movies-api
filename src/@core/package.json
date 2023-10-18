@@ -9,8 +9,11 @@
   "keywords": [],
   "imports": {
     "#common/domain": "./dist/common/domain/index.js",
+    "#common/infra": "./dist/common/infra/index.js",
     "#common/*": "./dist/common/*.js",
     "#category/domain": "./dist/category/domain/index.js",
+    "#category/application": "./dist/category/application/index.js",
+    "#category/infra": "./dist/category/infra/index.js",
     "#category/*": "./dist/category/*.js"
   },
   "exports": {

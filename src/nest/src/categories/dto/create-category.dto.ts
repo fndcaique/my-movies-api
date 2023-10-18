@@ -1,4 +1,4 @@
-import { CreateCategoryInput } from 'core/dist/category/application/use-cases';
+import { CreateCategoryInput } from '@fnd/core/category/application';
 
 export class CreateCategoryDto implements CreateCategoryInput {
   name: string;
