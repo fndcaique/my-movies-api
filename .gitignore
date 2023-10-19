@@ -4,6 +4,15 @@ node_modules
 # Ignore built ts files
 dist
 
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
 # Lock files
 pnpm-lock.yaml
 package-lock.json
@@ -19,5 +28,7 @@ package-lock.json
 tsconfig.tsbuildinfo
 
 
-# Test coverage
+# Tests
+/coverage
+/.nyc_output
 __coverage
