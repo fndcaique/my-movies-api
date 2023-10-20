@@ -1,28 +1,24 @@
 import { config as readEnv } from 'dotenv';
 import { join } from 'path';
 
-type Config = {
-  db: {
-    dialect: any;
-    host: string;
-    logging: boolean;
-  };
-};
+export class Config {
+  private static env: any = null;
+  public static db() {
+    if (!this.env) {
+      Config.readEnv();
+    }
+    return {
+      dialect: this.env.DB_DIALECT,
+      host: this.env.DB_HOST,
+      logging: this.env.DB_LOGGING,
+    };
+  }
 
-function makeConfig(envFilePath: string): Config {
-  const output = readEnv({ path: envFilePath });
-
-  return {
-    db: {
-      dialect: output.parsed.DB_DIALECT as any,
-      host: output.parsed.DB_HOST,
-      logging: output.parsed.DB_LOGGING === 'true',
-    },
-  };
+  private static readEnv() {
+    const envFilePath = join(
+      __dirname,
+      `../../../../envs/.env.${process.env.NODE_ENV}`,
+    );
+    Config.env = readEnv({ path: envFilePath }).parsed;
+  }
 }
-
-const envTestingFilePath = join(
-  __dirname,
-  `../../../../envs/.env.${process.env.NODE_ENV}`,
-);
-export const configTest = makeConfig(envTestingFilePath);

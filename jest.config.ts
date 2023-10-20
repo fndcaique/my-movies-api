@@ -1,7 +1,5 @@
 import type { Config } from 'jest';
 
-// const corePath = "<rootDir>/../../../node_modules/@fnd/core/dist";
-
 const config: Config = {
   clearMocks: true,
   moduleFileExtensions: ['js', 'json', 'ts'],
@@ -14,6 +12,9 @@ const config: Config = {
   collectCoverageFrom: ['**/*.(t|j)s'],
   coverageDirectory: '../coverage',
   testEnvironment: 'node',
+  moduleNameMapper: {
+    '^@core/(.*)$': './src/@core/$1',
+  },
 };
 
 export default config;

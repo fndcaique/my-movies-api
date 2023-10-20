@@ -1,10 +1,10 @@
 import { Sequelize, SequelizeOptions } from 'sequelize-typescript';
-import { configTest } from '../../../config';
+import { Config } from './../../../config';
 
 const defaultSequelizeOptions: SequelizeOptions = {
-  dialect: configTest.db.dialect,
-  host: configTest.db.host,
-  logging: configTest.db.logging,
+  dialect: Config.db().dialect,
+  host: Config.db().host,
+  logging: Config.db().logging ? undefined : false,
 };
 
 export function setupSequelize(options: SequelizeOptions = {}) {

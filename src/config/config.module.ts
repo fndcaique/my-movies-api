@@ -9,11 +9,11 @@ import { join } from 'path';
 type DB_SCHEMA_TYPE = {
   DB_DIALECT: 'postgres' | 'sqlite';
   DB_HOST: string;
-  DB_USERNAME: string;
-  DB_PASSWORD: string;
-  DB_DATABASE: string;
-  DB_PORT: number;
-  DB_LOGGING: boolean;
+  DB_USERNAME?: string;
+  DB_PASSWORD?: string;
+  DB_DATABASE?: string;
+  DB_PORT?: number;
+  DB_LOGGING?: false;
   DB_AUTO_LOAD_MODELS: boolean;
 };
 
@@ -36,7 +36,7 @@ export const CONFIG_DB_SCHEMA: Joi.StrictSchemaMap<DB_SCHEMA_TYPE> = {
     is: 'postgres',
     then: Joi.required(),
   }),
-  DB_LOGGING: Joi.boolean().required(),
+  DB_LOGGING: Joi.boolean().optional(),
   DB_AUTO_LOAD_MODELS: Joi.boolean().required(),
 };
 
@@ -45,17 +45,16 @@ export type CONFIG_SCHEMA_TYPE = DB_SCHEMA_TYPE;
 @Module({})
 export class ConfigModule extends NestConfigModule {
   static forRoot(options: ConfigModuleOptions = {}): DynamicModule {
+    const { envFilePath, ...otherOptions } = options;
     return super.forRoot({
-      ...options,
       isGlobal: true,
       envFilePath: [
-        ...(Array.isArray(options.envFilePath)
-          ? options.envFilePath
-          : [options.envFilePath]),
+        ...(Array.isArray(envFilePath) ? envFilePath : [envFilePath]),
         join(__dirname, `../../envs/.env.${process.env.NODE_ENV}`),
         join(__dirname, '../../envs/.env'),
       ],
       validationSchema: Joi.object({ ...CONFIG_DB_SCHEMA }),
+      ...otherOptions,
     });
   }
 }

@@ -1,6 +1,6 @@
 import { Category } from '@core/category/domain';
 import { LoadEntityError, UniqueEntityId } from '@core/common/domain';
-import { setupSequelize } from '@core/common/infra/db/testing/helpers/sequelize.helper';
+import { setupSequelize } from '@core/common/infra';
 import { CategoryModel } from './category-model';
 import { CategoryModelMapper } from './category-model-mapper';
 
@@ -10,7 +10,7 @@ describe('CategoryModelMapper Integration Tests', () => {
   it('should throw LoadEntityError when category is invalid', () => {
     const model = CategoryModel.build({
       id: '01a8171e-6283-4940-a468-41c5c8f49be8',
-    });
+    } as any);
     try {
       CategoryModelMapper.toEntity(model);
       fail('The category is valid, but it needs throw a LoadEntityError');
@@ -35,7 +35,7 @@ describe('CategoryModelMapper Integration Tests', () => {
       });
     const model = CategoryModel.build({
       id: '01a8171e-6283-4940-a468-41c5c8f49be8',
-    });
+    } as any);
     expect(() => CategoryModelMapper.toEntity(model)).toThrow(
       new Error('Generic error'),
     );
