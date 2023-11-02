@@ -1,8 +1,7 @@
-import { Category } from '../../../../category/domain';
+import { Category, CategoryId } from '../../../../category/domain';
 import {
   EntityValidationError,
   LoadEntityError,
-  UniqueEntityId,
   toSnakeCase,
 } from '../../../../common/domain';
 import { CategoryModel } from './category-model';
@@ -13,7 +12,7 @@ export class CategoryModelMapper {
     try {
       return new Category(
         { name, description, isActive: is_active, createdAt: created_at },
-        new UniqueEntityId(id),
+        new CategoryId(id),
       );
     } catch (e) {
       if (e instanceof EntityValidationError) {

@@ -14,8 +14,15 @@ export type CreateCategoryProperties = Partial<CategoryProperties> & {
   name: string;
 };
 
-export class Category extends Entity<CategoryProperties> {
-  constructor(props: CreateCategoryProperties, id?: UniqueEntityId) {
+export type CategoryPropsJson = { id: string } & CategoryProperties;
+
+export class CategoryId extends UniqueEntityId {}
+export class Category extends Entity<
+  CategoryId,
+  CategoryProperties,
+  CategoryPropsJson
+> {
+  constructor(props: CreateCategoryProperties, entityId?: CategoryId) {
     Category.validate(props);
     const onlyAcceptedProps: CreateCategoryProperties = {
       name: props.name,
@@ -23,7 +30,10 @@ export class Category extends Entity<CategoryProperties> {
       description: props.description,
       isActive: props.isActive,
     };
-    super(onlyAcceptedProps as CategoryProperties, id);
+    super(
+      onlyAcceptedProps as CategoryProperties,
+      entityId ?? new CategoryId(),
+    );
     this.description = props.description ?? null;
     this.props.isActive = props.isActive ?? true;
     this.props.createdAt = props.createdAt ?? new Date();
@@ -84,5 +94,12 @@ export class Category extends Entity<CategoryProperties> {
 
   deactivate() {
     this.isActive = false;
+  }
+
+  toJSON(): CategoryPropsJson {
+    return {
+      ...this.props,
+      id: this.id,
+    };
   }
 }

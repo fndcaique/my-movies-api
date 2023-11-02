@@ -3,7 +3,7 @@ import {
   SearchResult,
   SearchableRepositoryInterface,
 } from '../../../common/domain/repository/repository.contracts';
-import { Category } from '../entities/category';
+import { Category, CategoryId } from '../entities/category';
 
 export type CategoryFilter = string;
 
@@ -17,6 +17,7 @@ export class CategorySearchResult extends SearchResult<
 export interface CategoryRepository
   extends SearchableRepositoryInterface<
     Category,
+    CategoryId,
     CategoryFilter,
     CategorySearchParams,
     CategorySearchResult

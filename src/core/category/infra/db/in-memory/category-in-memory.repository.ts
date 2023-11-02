@@ -1,11 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Category, CategoryRepository } from '../../../../category/domain';
+import {
+  Category,
+  CategoryId,
+  CategoryRepository,
+} from '../../../../category/domain';
 import { InMemorySearchableRepository } from '../../../../common/domain/repository/in-memory.repository';
 import { SortDirection } from '../../../../common/domain/repository/repository.contracts';
 import { removeAccents } from '../../../../common/domain/utils/functions';
 
 export class CategoryInMemoryRepository
-  extends InMemorySearchableRepository<Category>
+  extends InMemorySearchableRepository<Category, CategoryId>
   implements CategoryRepository
 {
   protected async applyFilter(

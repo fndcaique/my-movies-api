@@ -1,6 +1,7 @@
 import _chance from 'chance';
 import {
   Category,
+  CategoryId,
   CategorySearchParams,
   CategorySearchResult,
 } from '../../../../category/domain';
@@ -8,7 +9,6 @@ import {
   NotFoundError,
   SearchParams,
   SearchResult,
-  UniqueEntityId,
   isValidUUID,
 } from '../../../../common/domain';
 import { setupSequelize } from '../../../../common/infra/db/testing/helpers/sequelize.helper';
@@ -63,7 +63,7 @@ describe('CategorySequelizeRepository Integration Tests', () => {
 
     await expect(
       repository.findById(
-        new UniqueEntityId('0a8b9e21-b580-4a17-a88f-3080aa7d5b88'),
+        new CategoryId('0a8b9e21-b580-4a17-a88f-3080aa7d5b88'),
       ),
     ).rejects.toThrow(
       new NotFoundError(
@@ -79,7 +79,7 @@ describe('CategorySequelizeRepository Integration Tests', () => {
     let entityFound = await repository.findById(entity.id);
     expect(entity.toJSON()).toEqual(entityFound.toJSON());
 
-    entityFound = await repository.findById(entity.uniqueEntityId);
+    entityFound = await repository.findById(entity.entityId);
     expect(entity.toJSON()).toEqual(entityFound.toJSON());
   });
 
@@ -390,11 +390,11 @@ describe('CategorySequelizeRepository Integration Tests', () => {
             items: [
               new Category(
                 { ...modelsProp[3], createdAt: modelsProp[3].created_at },
-                new UniqueEntityId(modelsProp[3].id),
+                new CategoryId(modelsProp[3].id),
               ),
               new Category(
                 { ...modelsProp[1], createdAt: modelsProp[1].created_at },
-                new UniqueEntityId(modelsProp[1].id),
+                new CategoryId(modelsProp[1].id),
               ),
             ],
             page: 1,
@@ -416,15 +416,15 @@ describe('CategorySequelizeRepository Integration Tests', () => {
             items: [
               new Category(
                 { ...modelsProp[2], createdAt: modelsProp[2].created_at },
-                new UniqueEntityId(modelsProp[2].id),
+                new CategoryId(modelsProp[2].id),
               ),
               new Category(
                 { ...modelsProp[4], createdAt: modelsProp[4].created_at },
-                new UniqueEntityId(modelsProp[4].id),
+                new CategoryId(modelsProp[4].id),
               ),
               new Category(
                 { ...modelsProp[0], createdAt: modelsProp[0].created_at },
-                new UniqueEntityId(modelsProp[0].id),
+                new CategoryId(modelsProp[0].id),
               ),
             ],
             page: 1,
@@ -446,19 +446,19 @@ describe('CategorySequelizeRepository Integration Tests', () => {
             items: [
               new Category(
                 { ...modelsProp[2], createdAt: modelsProp[2].created_at },
-                new UniqueEntityId(modelsProp[2].id),
+                new CategoryId(modelsProp[2].id),
               ),
               new Category(
                 { ...modelsProp[4], createdAt: modelsProp[4].created_at },
-                new UniqueEntityId(modelsProp[4].id),
+                new CategoryId(modelsProp[4].id),
               ),
               new Category(
                 { ...modelsProp[3], createdAt: modelsProp[3].created_at },
-                new UniqueEntityId(modelsProp[3].id),
+                new CategoryId(modelsProp[3].id),
               ),
               new Category(
                 { ...modelsProp[0], createdAt: modelsProp[0].created_at },
-                new UniqueEntityId(modelsProp[0].id),
+                new CategoryId(modelsProp[0].id),
               ),
             ],
             page: 1,

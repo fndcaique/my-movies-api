@@ -2,11 +2,12 @@
 import { Op } from 'sequelize';
 import {
   Category,
+  CategoryId,
   CategoryRepository,
   CategorySearchParams,
   CategorySearchResult,
 } from '../../../../category/domain';
-import { NotFoundError, UniqueEntityId } from '../../../../common/domain';
+import { NotFoundError } from '../../../../common/domain';
 import { CategoryModel } from './category-model';
 import { CategoryModelMapper } from './category-model-mapper';
 
@@ -19,7 +20,7 @@ export class CategorySequelizeRepository implements CategoryRepository {
     );
   }
 
-  async findById(id: string | UniqueEntityId): Promise<Category> {
+  async findById(id: string | CategoryId): Promise<Category> {
     const model = await this._get(`${id}`);
     return CategoryModelMapper.toEntity(model);
   }
@@ -39,7 +40,7 @@ export class CategorySequelizeRepository implements CategoryRepository {
     );
   }
 
-  async delete(id: string | UniqueEntityId): Promise<void> {
+  async delete(id: string | CategoryId): Promise<void> {
     const _id = `${id}`;
     await this._get(_id);
     await this.categoryModel.destroy({

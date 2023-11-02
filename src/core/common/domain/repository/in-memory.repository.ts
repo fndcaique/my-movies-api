@@ -1,23 +1,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Entity } from '../entity/entity';
 import { NotFoundError } from '../errors/not-found.error';
-import { UniqueEntityId } from '../value-objects/unique-entity-id.vo';
+import { ValueObject } from '../value-objects';
 import {
   RepositoryInterface,
   SearchParams,
   SearchResult,
   SearchableRepositoryInterface,
+  SortDirection,
 } from './repository.contracts';
 
-export abstract class InMemoryRepository<E extends Entity>
-  implements RepositoryInterface<E>
+export abstract class InMemoryRepository<
+  E extends Entity,
+  EntityId extends ValueObject,
+> implements RepositoryInterface<E, EntityId>
 {
   items: E[] = [];
 
   async insert(entity: E): Promise<void> {
     this.items.push(entity);
   }
-  async findById(id: string | UniqueEntityId): Promise<E> {
+  async findById(id: string | EntityId): Promise<E> {
     const _id = `${id}`;
     return this._get(_id);
   }
@@ -31,7 +34,7 @@ export abstract class InMemoryRepository<E extends Entity>
       this.items[itemIdx] = entity;
     }
   }
-  async delete(id: string | UniqueEntityId): Promise<void> {
+  async delete(id: string | EntityId): Promise<void> {
     const _id = `${id}`;
     await this._get(_id);
     const itemIdx = this.items.findIndex((item) => item.id === _id);
@@ -49,11 +52,15 @@ export abstract class InMemoryRepository<E extends Entity>
   }
 }
 
-export abstract class InMemorySearchableRepository<E extends Entity>
-  extends InMemoryRepository<E>
-  implements SearchableRepositoryInterface<E>
+export abstract class InMemorySearchableRepository<
+    E extends Entity,
+    EntityId extends ValueObject,
+    Filter = string,
+  >
+  extends InMemoryRepository<E, EntityId>
+  implements SearchableRepositoryInterface<E, EntityId, Filter>
 {
-  async search(props: SearchParams): Promise<SearchResult<E, string>> {
+  async search(props: SearchParams<Filter>): Promise<SearchResult<E, Filter>> {
     const itemsFiltered = await this.applyFilter(this.items, props.filter);
     const itemsSorted = await this.applySort(
       itemsFiltered,
@@ -75,22 +82,25 @@ export abstract class InMemorySearchableRepository<E extends Entity>
 
   protected abstract applyFilter(
     items: E[],
-    filter: SearchParams['filter'],
+    filter: Filter | null,
   ): Promise<E[]>;
 
   protected async applySort(
     items: E[],
-    sortBy?: SearchParams['sortBy'],
-    sortDir?: SearchParams['sortDir'],
+    sortBy: string | null,
+    sortDir: SortDirection | null,
+    customGetter?: (sort: string, item: E) => any,
   ): Promise<E[]> {
     if (!items.length || !sortBy || !(sortBy in items[0].props)) {
       return items;
     }
     return [...items].sort((a, b) => {
-      if (a.props[sortBy] < b.props[sortBy]) {
+      const aValue = customGetter ? customGetter(sortBy, a) : a.props[sortBy];
+      const bValue = customGetter ? customGetter(sortBy, b) : b.props[sortBy];
+      if (aValue < bValue) {
         return sortDir === 'desc' ? 1 : -1;
       }
-      if (a.props[sortBy] > b.props[sortBy]) {
+      if (aValue > bValue) {
         return sortDir === 'desc' ? -1 : 1;
       }
       return 0;

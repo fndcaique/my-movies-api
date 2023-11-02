@@ -1,23 +1,19 @@
-import { UniqueEntityId } from '../value-objects/unique-entity-id.vo';
+import { ValueObject } from '../value-objects';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export abstract class Entity<Props = any> {
-  public readonly uniqueEntityId: UniqueEntityId;
+export abstract class Entity<
+  EntityId extends ValueObject = any,
+  Props = any,
+  JsonProps = Required<{ id: string } & Props>,
+> {
   constructor(
     public readonly props: Props,
-    id?: UniqueEntityId,
-  ) {
-    this.uniqueEntityId = id || new UniqueEntityId();
-  }
+    public readonly entityId: EntityId,
+  ) {}
 
   get id(): string {
-    return this.uniqueEntityId.value;
+    return this.entityId.value;
   }
 
-  public toJSON() {
-    return {
-      id: this.id,
-      ...this.props,
-    };
-  }
+  abstract toJSON(): JsonProps;
 }

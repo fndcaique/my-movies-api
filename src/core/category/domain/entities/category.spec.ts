@@ -1,5 +1,4 @@
-import { UniqueEntityId } from '../../../common/domain/value-objects/unique-entity-id.vo';
-import { Category } from './category';
+import { Category, CategoryId } from './category';
 describe('Category Unit Tests', () => {
   beforeAll(() => {
     Category.validate = jest.fn();
@@ -13,12 +12,12 @@ describe('Category Unit Tests', () => {
       createdAt: new Date(),
     };
     const uuid = '568c59bc-81ea-47e4-b288-4e95cabe5f6b';
-    let category = new Category(allProps, new UniqueEntityId(uuid));
+    let category = new Category(allProps, new CategoryId(uuid));
     expect(Category.validate).toBeCalledTimes(1);
     expect(category.props).toEqual(allProps);
     expect(category.props.createdAt).toBeInstanceOf(Date);
-    expect(category.uniqueEntityId.value).toBe(uuid);
-    expect(category.uniqueEntityId instanceof UniqueEntityId).toBe(true);
+    expect(category.entityId.value).toBe(uuid);
+    expect(category.entityId instanceof CategoryId).toBe(true);
 
     const othersProps = {
       name: 'Other category',
@@ -32,7 +31,7 @@ describe('Category Unit Tests', () => {
     expect(category.props.isActive).toBe(false);
     expect(category.props.createdAt).toBeTruthy();
     expect(category.props.createdAt).toBeInstanceOf(Date);
-    expect(category.uniqueEntityId instanceof UniqueEntityId).toBe(true);
+    expect(category.entityId instanceof CategoryId).toBe(true);
 
     const someProps = {
       name: 'Only name property',
@@ -44,7 +43,7 @@ describe('Category Unit Tests', () => {
     expect(category.isActive).toBe(true);
     expect(category.createdAt).toBeTruthy();
     expect(category.createdAt).toBeInstanceOf(Date);
-    expect(category.uniqueEntityId instanceof UniqueEntityId).toBe(true);
+    expect(category.entityId instanceof CategoryId).toBe(true);
   });
 
   it('should update the name and description properties', () => {

@@ -1,6 +1,6 @@
-import { LoadEntityError, UniqueEntityId } from '../../../../common/domain';
+import { LoadEntityError } from '../../../../common/domain';
 import { setupSequelize } from '../../../../common/infra/db/testing/helpers/sequelize.helper';
-import { Category } from '../../../domain/entities/category';
+import { Category, CategoryId } from '../../../domain/entities/category';
 import { CategoryModel } from './category-model';
 import { CategoryModelMapper } from './category-model-mapper';
 
@@ -62,7 +62,7 @@ describe('CategoryModelMapper Integration Tests', () => {
           isActive: true,
           createdAt,
         },
-        new UniqueEntityId('01a8171e-6283-4940-a468-41c5c8f49be8'),
+        new CategoryId('01a8171e-6283-4940-a468-41c5c8f49be8'),
       ).toJSON(),
     );
   });

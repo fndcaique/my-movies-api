@@ -57,7 +57,7 @@ describe('InMemoryRepository Unit Tests', () => {
     let entityFound = await repository.findById(entity.id);
     expect(entity.toJSON()).toEqual(entityFound.toJSON());
 
-    entityFound = await repository.findById(entity.uniqueEntityId);
+    entityFound = await repository.findById(entity.entityId);
     expect(entity.toJSON()).toEqual(entityFound.toJSON());
   });
 
@@ -82,7 +82,7 @@ describe('InMemoryRepository Unit Tests', () => {
 
     const entityUpdated = new StubEntity(
       { name: 'updated', price: 1 },
-      entity.uniqueEntityId,
+      entity.entityId,
     );
     await repository.update(entityUpdated);
     expect(repository.items[0].toJSON()).toEqual(entityUpdated.toJSON());
@@ -110,7 +110,7 @@ describe('InMemoryRepository Unit Tests', () => {
     expect(repository.items).toHaveLength(0);
 
     await repository.insert(entity);
-    await repository.delete(entity.uniqueEntityId);
+    await repository.delete(entity.entityId);
     expect(repository.items).toHaveLength(0);
   });
 });
