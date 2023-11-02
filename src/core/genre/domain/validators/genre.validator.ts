@@ -1,5 +1,4 @@
 import {
-  IsArray,
   IsBoolean,
   IsDate,
   IsInstance,
@@ -9,8 +8,10 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { CategoryId } from 'src/core/category';
+import { CategoryId } from '../../../category';
 import { ClassValidatorFields } from '../../../common/domain/validators/class-validator-fields';
+import { Distinct } from '../../../common/domain/validators/rules/distinct.rule';
+import { IterableNotEmpty } from '../../../common/domain/validators/rules/iterable-not-empty.rule';
 import { GenreConstructorProperties } from '../entities/genre';
 
 export class GenreRules {
@@ -20,12 +21,10 @@ export class GenreRules {
   @IsNotEmpty()
   name: string;
 
-  // @Distinct(())
-
-  @IsArray()
+  @Distinct((a: CategoryId, b: CategoryId) => a.value === b.value)
   @IsInstance(CategoryId, { each: true })
-  @IsOptional()
-  categoriesId: Map<string, CategoryId> | undefined | null;
+  @IterableNotEmpty()
+  categoriesId: Map<string, CategoryId>;
 
   @IsBoolean()
   @IsOptional()
