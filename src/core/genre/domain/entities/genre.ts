@@ -1,6 +1,6 @@
-import { CategoryId } from 'src/core/category';
-import { EntityValidationError, UniqueEntityId } from 'src/core/common';
-import { AggregateRoot } from 'src/core/common/domain/entity/aggregate-root';
+import { CategoryId } from '../../../category';
+import { EntityValidationError, UniqueEntityId } from '../../../common';
+import { AggregateRoot } from '../../../common/domain/entity/aggregate-root';
 import { GenreValidatorFactory } from '../validators/genre.validator';
 
 export type GenreProperties = {
@@ -19,6 +19,7 @@ export type GenrePropsJson = { id: string } & Omit<
 
 export type GenreConstructorProperties = Partial<GenreProperties> & {
   name: string;
+  categoriesId: Map<string, CategoryId>;
 };
 
 export type GenreCreateCommand = Partial<
@@ -34,7 +35,7 @@ export class Genre extends AggregateRoot<
   GenrePropsJson
 > {
   constructor(props: GenreConstructorProperties, entityId?: GenreId) {
-    // Genre.validate(props);
+    Genre.validate(props);
     const onlyAcceptedProps: GenreConstructorProperties = {
       name: props.name,
       categoriesId: props.categoriesId,
@@ -42,8 +43,6 @@ export class Genre extends AggregateRoot<
       isActive: props.isActive,
     };
     super(onlyAcceptedProps as GenreProperties, entityId ?? new GenreId());
-    this.props.categoriesId =
-      props.categoriesId ?? new Map<string, CategoryId>();
     this.props.isActive = props.isActive ?? true;
     this.props.createdAt = props.createdAt ?? new Date();
   }
@@ -62,12 +61,40 @@ export class Genre extends AggregateRoot<
     this.name = name;
   }
 
-  static validate(props: GenreProperties) {
+  addCategoryId(categoryId: CategoryId) {
+    this.categoriesId.set(categoryId.value, categoryId);
+  }
+
+  removeCategoryId(categoryId: CategoryId) {
+    this.categoriesId.delete(categoryId.value);
+  }
+
+  updateCategoriesId(categoriesId: CategoryId[]) {
+    const newCategoriesId = new Map<string, CategoryId>();
+    categoriesId.forEach((categoryId) => {
+      newCategoriesId.set(categoryId.value, categoryId);
+    });
+    Genre.validate({
+      ...this.props,
+      categoriesId: newCategoriesId,
+    });
+    this.categoriesId = newCategoriesId;
+  }
+
+  static validate(props: GenreConstructorProperties) {
     const validator = GenreValidatorFactory.create();
     const isValid = validator.validate(props);
     if (!isValid) {
       throw new EntityValidationError(validator.errors);
     }
+  }
+
+  activate() {
+    this.props.isActive = true;
+  }
+
+  deactivate() {
+    this.props.isActive = false;
   }
 
   get name() {
@@ -88,10 +115,6 @@ export class Genre extends AggregateRoot<
 
   get isActive() {
     return this.props.isActive;
-  }
-
-  private set isActive(value: boolean) {
-    this.props.isActive = value;
   }
 
   get createdAt() {
