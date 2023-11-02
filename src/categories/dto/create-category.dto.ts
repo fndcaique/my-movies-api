@@ -1,4 +1,4 @@
-import { CreateCategoryInput } from '@core/category/application';
+import { CreateCategoryInput } from '../../core/category/application';
 
 export class CreateCategoryDto implements CreateCategoryInput {
   name: string;

@@ -36,7 +36,7 @@ export const CONFIG_DB_SCHEMA: Joi.StrictSchemaMap<DB_SCHEMA_TYPE> = {
     is: 'postgres',
     then: Joi.required(),
   }),
-  DB_LOGGING: Joi.boolean().optional(),
+  DB_LOGGING: Joi.boolean().required(),
   DB_AUTO_LOAD_MODELS: Joi.boolean().required(),
 };
 
@@ -46,7 +46,7 @@ export type CONFIG_SCHEMA_TYPE = DB_SCHEMA_TYPE;
 export class ConfigModule extends NestConfigModule {
   static forRoot(options: ConfigModuleOptions = {}): DynamicModule {
     const { envFilePath, ...otherOptions } = options;
-    return super.forRoot({
+    const dynamicModule = super.forRoot({
       isGlobal: true,
       envFilePath: [
         ...(Array.isArray(envFilePath) ? envFilePath : [envFilePath]),
@@ -56,5 +56,6 @@ export class ConfigModule extends NestConfigModule {
       validationSchema: Joi.object({ ...CONFIG_DB_SCHEMA }),
       ...otherOptions,
     });
+    return dynamicModule;
   }
 }

@@ -1,6 +1,6 @@
-import { CategoryModel } from '@core/category/infra';
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { CategoryModel } from '../core/category/infra';
 import { CategoriesController } from './categories.controller';
 import { CATEGORIES_PROVIDERS } from './categories.providers';
 

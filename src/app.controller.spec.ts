@@ -26,7 +26,7 @@ describe('AppController', () => {
 
     const dbDialect = configService.get('DB_DIALECT');
 
-    console.log(dbDialect);
+    console.log({ dbDialect });
   });
 
   describe('root', () => {

@@ -1,8 +1,8 @@
-import { CategoryModel } from '@core/category/infra';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { CONFIG_SCHEMA_TYPE } from 'src/config/config.module';
+import { CategoryModel } from '../core/category/infra/db/sequelize/category-model';
 
 @Module({
   imports: [
@@ -15,8 +15,8 @@ import { CONFIG_SCHEMA_TYPE } from 'src/config/config.module';
             dialect: 'sqlite',
             host: configService.get('DB_HOST'),
             models,
-            autoLoadModels: configService.get('DB_AUTO_LOAD_MODELS'),
-            logging: configService.get('DB_LOGGING'),
+            autoLoadModels: configService.get('DB_AUTO_LOAD_MODELS') === 'true',
+            logging: configService.get('DB_LOGGING') === 'true',
           };
         }
 
@@ -24,13 +24,13 @@ import { CONFIG_SCHEMA_TYPE } from 'src/config/config.module';
           return {
             dialect: 'postgres',
             host: configService.get('DB_HOST'),
-            port: configService.get('DB_PORT'),
+            port: parseInt(configService.get('DB_PORT'), 10),
             username: configService.get('DB_USERNAME'),
             password: configService.get('DB_PASSWORD'),
             database: configService.get('DB_DATABASE'),
             models,
-            autoLoadModels: configService.get('DB_AUTO_LOAD_MODELS'),
-            logging: configService.get('DB_LOGGING'),
+            autoLoadModels: configService.get('DB_AUTO_LOAD_MODELS') === 'true',
+            logging: configService.get('DB_LOGGING') === 'true',
           };
         }
 

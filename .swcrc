@@ -11,13 +11,9 @@
       "legacyDecorator": true,
       "decoratorMetadata": true
     },
+    "target": "es2021",
     "baseUrl": "./",
-    "keepClassNames": true,
-    "paths": {
-      "@core/*": [
-        "./src/@core/*"
-      ]
-    }
+    "keepClassNames": true
   },
   "minify": false
 }

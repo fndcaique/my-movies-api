@@ -1,11 +1,4 @@
 import {
-  CreateCategoryUseCase,
-  DeleteCategoryUseCase,
-  GetCategoryUseCase,
-  ListCategoriesUseCase,
-  UpdateCategoryUseCase,
-} from '@core/category/application';
-import {
   Body,
   Controller,
   Delete,
@@ -17,6 +10,13 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
+import {
+  CreateCategoryUseCase,
+  DeleteCategoryUseCase,
+  GetCategoryUseCase,
+  ListCategoriesUseCase,
+  UpdateCategoryUseCase,
+} from '../core/category/application/use-cases';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { SearchCategoryDto } from './dto/search-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
